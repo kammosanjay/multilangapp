@@ -1,3 +1,25 @@
 {
-    "hello":"ghlk"
+  "@@locale": "hi",
+  "hello": "नमस्ते!",
+  "welcome": "हमारे ऐप में आपका स्वागत है।",
+  "logout": "लॉग आउट",
+  "login": "लॉग इन",
+  "username": "उपयोगकर्ता नाम",
+  "password": "पासवर्ड",
+  "submit": "जमा करें",
+  "cancel": "रद्द करें",
+  "language": "भाषा",
+  "change_language": "भाषा बदलें",
+  "dark_mode": "डार्क मोड",
+  "light_mode": "लाइट मोड",
+  "theme": "थीम सेटिंग्स",
+  "profile": "उपयोगकर्ता प्रोफ़ाइल",
+  "settings": "ऐप सेटिंग्स",
+  "notifications": "सूचनाएं",
+  "search": "कुछ खोजें...",
+  "home": "मुखपृष्ठ",
+  "description": "यह परीक्षण के लिए एक नमूना विवरण पाठ है।",
+  "contact_us": "संपर्क करें",
+  "about_us": "हमारे बारे में",
+  "feedback": "प्रतिक्रिया भेजें"
 }

@@ -5,8 +5,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_as.dart';
+import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_hi.dart';
+import 'app_localizations_kn.dart';
+import 'app_localizations_mr.dart';
+import 'app_localizations_ta.dart';
+import 'app_localizations_te.dart';
+import 'app_localizations_ur.dart';
 
 // ignore_for_file: type=lint
 
@@ -91,15 +99,149 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('as'),
+    Locale('bn'),
     Locale('en'),
-    Locale('hi')
+    Locale('es'),
+    Locale('hi'),
+    Locale('kn'),
+    Locale('mr'),
+    Locale('ta'),
+    Locale('te'),
+    Locale('ur')
   ];
 
   /// No description provided for @hello.
   ///
   /// In en, this message translates to:
-  /// **'dfgdhdhdhd'**
+  /// **'Hello there!'**
   String get hello;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to our app.'**
+  String get welcome;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @change_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get change_language;
+
+  /// No description provided for @dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get dark_mode;
+
+  /// No description provided for @light_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get light_mode;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Settings'**
+  String get theme;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'User Profile'**
+  String get profile;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get settings;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search something...'**
+  String get search;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a sample description text for testing.'**
+  String get description;
+
+  /// No description provided for @contact_us.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contact_us;
+
+  /// No description provided for @about_us.
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get about_us;
+
+  /// No description provided for @feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get feedback;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -111,7 +253,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'hi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['as', 'bn', 'en', 'es', 'hi', 'kn', 'mr', 'ta', 'te', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -122,8 +264,16 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'as': return AppLocalizationsAs();
+    case 'bn': return AppLocalizationsBn();
     case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
     case 'hi': return AppLocalizationsHi();
+    case 'kn': return AppLocalizationsKn();
+    case 'mr': return AppLocalizationsMr();
+    case 'ta': return AppLocalizationsTa();
+    case 'te': return AppLocalizationsTe();
+    case 'ur': return AppLocalizationsUr();
   }
 
   throw FlutterError(
