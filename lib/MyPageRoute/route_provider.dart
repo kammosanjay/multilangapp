@@ -6,7 +6,7 @@ class RouteProvider with ChangeNotifier {
 
   String get currentRoute => _currentRoute;
 
-  void navigateTo(String routeName, BuildContext context) {
+  navigateTo(String routeName, BuildContext context) {
     _currentRoute = routeName;
     notifyListeners();
     Navigator.pushNamed(context, routeName);

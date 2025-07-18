@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:multi_localization_app/OSM/osm.dart';
 import 'package:multi_localization_app/Views/home/home_providers.dart';
+import 'package:multi_localization_app/Views/home/my_map.dart';
 import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
@@ -22,10 +23,24 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   var locationController = TextEditingController();
+  int _selectedIndex = 0;
+  final List<Widget> _pages = [
+    MyMapLocation(),
+    Center(child: Container(color: AppColor.primaryColor)),
+    Center(child: Container(color: AppColor.secondaryColor)),
+    Center(child: Container(color: AppColor.buttonColor)),
+    Center(child: Container(color: AppColor.errorColor)),
+  ];
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index; // update selected index
+    });
   }
 
   @override
@@ -33,6 +48,52 @@ class _MyHomeState extends State<MyHome> {
     final appLoc = AppLocalizations.of(context)!;
     print("build");
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // This shows all 5 items
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage('assets/images/attendance.png'),
+              size: 30.0,
+            ),
+            label: 'Attendance',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage('assets/images/track.png'),
+              size: 30.0,
+              color: Colors.black,
+            ),
+            label: 'Track',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage('assets/images/task.png'),
+              size: 30.0,
+              color: Colors.green,
+            ),
+            label: 'Task',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage('assets/images/leads.png'),
+              size: 30.0,
+              color: Colors.indigo,
+            ),
+            label: 'Leads',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(
+              AssetImage('assets/images/more.png'),
+              size: 30.0,
+              color: Colors.red,
+            ),
+            label: 'More',
+          ),
+        ],
+      ),
       drawer: SafeArea(
         child: Drawer(
           elevation: 5,
@@ -218,78 +279,7 @@ class _MyHomeState extends State<MyHome> {
           // ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 500,
-              width: double.infinity,
-              child: SearchLocationScreen(),
-            ),
-
-            // Consumer<HomeProviders>(
-            //   builder: (ctx, homeProvider, child) {
-            //     return ListTile(s
-            //       title: Text(
-            //         "${AppLocalizations.of(ctx)!.hello} : ${homeProvider.counter.toString()}",
-            //         style: CustomWidgets.textstyle(),
-            //       ),
-            //       onTap: () {
-            //         // Handle tap
-            //       },
-            //     );
-            //   },
-            // ),
-            // Spacer(),
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 10.0),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: Center(
-            //           child: ElevatedButton(
-            //             onPressed: () {
-            //               context.read<HomeProviders>().incrementCounter();
-            //             },
-            //             style: CustomWidgets.buttonStyle(height: 20),
-            //             child: Text(
-            //               "increment",
-            //               style: CustomWidgets.textstyle(
-            //                 textColor: Colors.white,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       Expanded(
-            //         child: Center(
-            //           child: ElevatedButton(
-            //             onPressed: () {
-            //               context.read<HomeProviders>().decrementCounter();
-            //               // context.read<HomeProviders>().changeName("New Name");
-            //             },
-            //             style: CustomWidgets.buttonStyle(
-            //               height: 20,
-            //               backgroundColor: Colors.red,
-            //               textColor: Colors.white,
-            //             ),
-            //             child: Text(
-            //               "decrement",
-            //               style: CustomWidgets.textstyle(
-            //                 textColor: Colors.white,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
-      ),
+      body: _pages[_selectedIndex],
     );
   }
 }

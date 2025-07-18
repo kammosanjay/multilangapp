@@ -120,7 +120,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to our app.'**
+  /// **'Field Attendance'**
   String get welcome;
 
   /// No description provided for @logout.

@@ -12,7 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hello => 'Hello there!';
 
   @override
-  String get welcome => 'Welcome to our app.';
+  String get welcome => 'Field Attendance';
 
   @override
   String get logout => 'Logout';

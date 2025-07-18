@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
   "hello": "Hello there!",
-  "welcome": "Welcome to our app.",
+  "welcome": "Field Attendance",
   "logout": "Logout",
   "login": "Login",
   "username": "Username",

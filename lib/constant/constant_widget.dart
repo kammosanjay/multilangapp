@@ -50,14 +50,15 @@ class CustomWidgets {
           ),
           elevation: 5,
           child: TextFormField(
-            buildCounter: (
-              context, {
-              required currentLength,
-              required isFocused,
-              required maxLength,
-            }) {
-              return null;
-            },
+            buildCounter:
+                (
+                  context, {
+                  required currentLength,
+                  required isFocused,
+                  required maxLength,
+                }) {
+                  return null;
+                },
             focusNode: focusNode,
             readOnly: isReadyOnly,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -169,13 +170,12 @@ class CustomWidgets {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
-            items:
-                items.map((T value) {
-                  return DropdownMenuItem<T>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
+            items: items.map((T value) {
+              return DropdownMenuItem<T>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
             onChanged: readOnly ? null : onChanged,
           ),
         ),
@@ -189,21 +189,23 @@ class CustomWidgets {
     required BuildContext context, // Pass BuildContext as a parameter
     String? buttonName,
     Function? onPressed,
+    double? width,
+    double? height,
+    Color? btnColor,
+    double? radius,
   }) {
-    var w = MediaQuery.of(context).size.width;
-    var h = MediaQuery.of(context).size.height;
     return ElevatedButton(
       onPressed: () {
         onPressed!();
       },
-      child: Text(buttonName!, style: TextStyle(fontSize: 20)),
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(w, h * 0.07), // Width: 200, Height: 50
-        backgroundColor: Colors.blue,
+        fixedSize: Size(width!, height!), // Width: 200, Height: 50
+        backgroundColor: btnColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10), // Set border radius
+          borderRadius: BorderRadius.circular(radius!), // Set border radius
         ), // Button color
       ),
+      child: Text(buttonName!, style: TextStyle(fontSize: 20)),
     );
   }
 

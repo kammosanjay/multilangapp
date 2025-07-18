@@ -12,7 +12,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get hello => 'హలో!';
 
   @override
-  String get welcome => 'మా యాప్‌కి స్వాగతం.';
+  String get welcome => 'క్షేత్ర హాజరు';
 
   @override
   String get logout => 'లాగ్ అవుట్';

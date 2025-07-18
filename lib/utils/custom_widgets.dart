@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomWidgets {
+class MyCustomWidgets {
   // TextStyle for consistent text styling across the app
   static textstyle({
     double fontSize = 16,

@@ -12,7 +12,7 @@ class AppLocalizationsUr extends AppLocalizations {
   String get hello => 'ہیلو!';
 
   @override
-  String get welcome => 'ہماری ایپ میں خوش آمدید۔';
+  String get welcome => 'فیلڈ حاضری';
 
   @override
   String get logout => 'لاگ آؤٹ';

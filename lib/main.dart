@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/route_manager.dart';
@@ -6,8 +7,10 @@ import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
 // Ensure that 'myPage_routes.dart' defines a class named 'MyPageRoutes' with a static 'routes' property.
 import 'package:multi_localization_app/Views/home/home_providers.dart';
 import 'package:multi_localization_app/Views/home/home.dart';
+import 'package:multi_localization_app/Views/home/task_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
+import 'package:multi_localization_app/firebase_options.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/Views/language/language.dart';
 import 'package:multi_localization_app/Views/themeColor.dart';
@@ -15,7 +18,9 @@ import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (context) => Language(),
@@ -39,6 +44,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        
         supportedLocales: [
           Locale('en'),
           Locale('hi'),
@@ -66,6 +72,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const SplashScreen(),
           '/home': (context) => const MyHome(),
+          '/task': (context) =>  TaskPage(),
         },
       ),
     );

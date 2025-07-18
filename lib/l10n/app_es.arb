@@ -1,7 +1,7 @@
 {
   "@@locale": "es",
   "hello": "¡Hola!",
-  "welcome": "Bienvenido a nuestra aplicación.",
+  "welcome": "asistencia al campo",
   "logout": "Cerrar sesión",
   "login": "Iniciar sesión",
   "username": "Nombre de usuario",

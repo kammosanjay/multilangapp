@@ -12,7 +12,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get hello => 'नमस्ते!';
 
   @override
-  String get welcome => 'हमारे ऐप में आपका स्वागत है।';
+  String get welcome => 'फ़ील्ड उपस्थिति';
 
   @override
   String get logout => 'लॉग आउट';

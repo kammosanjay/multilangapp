@@ -12,7 +12,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get hello => 'வணக்கம்!';
 
   @override
-  String get welcome => 'எங்கள் செயலிக்கு வரவேற்கிறோம்.';
+  String get welcome => 'கள வருகை';
 
   @override
   String get logout => 'வெளியேறு';

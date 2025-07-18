@@ -12,7 +12,7 @@ class AppLocalizationsKn extends AppLocalizations {
   String get hello => 'ಹಲೋ!';
 
   @override
-  String get welcome => 'ನಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ಸುಸ್ವಾಗತ.';
+  String get welcome => 'ಕ್ಷೇತ್ರ ಹಾಜರಾತಿ';
 
   @override
   String get logout => 'ಲಾಗ್ ಔಟ್';
