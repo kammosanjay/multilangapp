@@ -6,8 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart' as lotti;
 import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
-import 'package:multi_localization_app/Views/home/login_circle_avtar_button.dart';
+import 'package:multi_localization_app/Views/home/check_in_circle.dart';
+
+import 'package:multi_localization_app/Views/home/login_circle.dart';
 import 'package:multi_localization_app/Views/home/task_page.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/constant/constant_widget.dart';
@@ -25,13 +28,14 @@ class MyMapLocation extends StatefulWidget {
 class _MyMapLocationState extends State<MyMapLocation>
     with SingleTickerProviderStateMixin {
   String formattedTime = DateFormat('hh:mm a').format(DateTime.now());
-
+  bool taskCreated = false;
   late AnimationController _controller;
   bool isLogin = true;
   LatLng myLatlng = LatLng(26.850000, 80.949997); // default: Lucknow
-  String address = "Tap Login";
+  String address = "Tap Login to Get Location";
   GoogleMapController? _mapController;
   var tasklist;
+  bool isloading = false;
 
   @override
   void initState() {
@@ -59,13 +63,14 @@ class _MyMapLocationState extends State<MyMapLocation>
   }
 
   Future<void> _determinePosition() async {
+    setState(() {
+      isloading = true;
+    });
     bool serviceEnabled;
     LocationPermission permission;
 
     await _controller.forward(from: 0); // Start rotation
-    setState(() {
-      isLogin = !isLogin; // Toggle Login ↔ Logout
-    });
+
     // Check if location service is enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -114,6 +119,11 @@ class _MyMapLocationState extends State<MyMapLocation>
         14,
       ),
     );
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        isLogin = !isLogin; // Toggle Login ↔ Logout
+      });
+    });
   }
 
   Future<void> setMarker(LatLng value) async {
@@ -122,20 +132,36 @@ class _MyMapLocationState extends State<MyMapLocation>
       value.latitude,
       value.longitude,
     );
+
     if (result.isNotEmpty) {
       address =
           '${result[0].name}, ${result[0].locality}, ${result[0].administrativeArea}';
     }
-
     setState(() {
-      FlutterToastr.show(
-        address,
-        context,
-        duration: 1,
-        position: FlutterToastr.center,
-      );
+      isloading = false;
     });
-    context.read<RouteProvider>().navigateTo("/task", context);
+    // setState(() {
+    //   FlutterToastr.show(
+    //     address,
+    //     context,
+    //     duration: 4,
+    //     position: FlutterToastr.center,
+    //   );
+    // });
+    Future.delayed(Duration(seconds: 4), () async {
+      final resultArg = await context.read<RouteProvider>().navigateTo(
+        "/task",
+        context,
+      );
+      setState(() {
+        taskCreated = true;
+      });
+
+      if (resultArg == "taskCreated") {
+        print("✅ Task was created!");
+        // Perform any success action
+      }
+    });
   }
 
   @override
@@ -145,12 +171,16 @@ class _MyMapLocationState extends State<MyMapLocation>
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(target: myLatlng, zoom: 12),
+            compassEnabled: true,
+
+            // liteModeEnabled: true,
             markers: {
               Marker(
                 markerId: MarkerId('1'),
                 infoWindow: InfoWindow(title: address),
                 draggable: true,
                 position: myLatlng,
+
                 onDragEnd: (value) {
                   setMarker(value);
                 },
@@ -194,7 +224,7 @@ class _MyMapLocationState extends State<MyMapLocation>
                     height: 5,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.grey[300],
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -202,31 +232,39 @@ class _MyMapLocationState extends State<MyMapLocation>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(radius: 25),
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundColor: AppColor.primaryColor,
+                      ),
                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Field Employee",
+                            "Employee Name",
                             style: GoogleFonts.openSans(
                               fontSize: 20,
-                              color: AppColor.textColor,
+                              color: const Color.fromARGB(255, 68, 66, 66),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           // SizedBox(height: 8),
-                          SizedBox(
-                            width: 280,
-                            height: 20,
-                            child: FittedBox(
-                              child: Text(
-                                address,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ),
-                          ),
+                          isloading
+                              ? Container(
+                                  width: 300,
+                                  height: 2,
+                                  child: LinearProgressIndicator(
+                                    backgroundColor: AppColor.primaryColor,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColor.secondaryColor,
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  address,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 14),
+                                ),
                         ],
                       ),
                     ],
@@ -236,86 +274,6 @@ class _MyMapLocationState extends State<MyMapLocation>
             ),
           ),
           login(),
-
-          // Visibility(
-          //   visible: isLogin,
-          //   child: Positioned(
-          //     left: 0,
-          //     right: 0,
-          //     bottom: 70,
-          //     child: GestureDetector(
-          //       onTap: _determinePosition,
-          //       child: AnimatedBuilder(
-          //         animation: _controller,
-          //         builder: (_, child) {
-          //           return Transform.rotate(
-          //             angle:
-          //                 _controller.value * 2 * 3.14 * 1, // 10 full rotations
-          //             child: child,
-          //           );
-          //         },
-          //         child: CircleAvatar(
-          //           radius: 60.0,
-          //           backgroundColor: isLogin
-          //               ? AppColor.primaryColor
-          //               : Colors.green.withAlpha(50),
-          //           child: CircleAvatar(
-          //             radius: 50,
-          //             backgroundColor: AppColor.secondaryColor,
-          //             child: Text(
-          //               isLogin
-          //                   ? AppLocalizations.of(context)!.login
-          //                   : AppLocalizations.of(context)!.logout,
-          //               style: MyCustomWidgets.textstyle(
-          //                 textColor: Colors.white,
-          //                 fontWeight: FontWeight.w600,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Visibility(
-          //   visible: !isLogin,
-          //   child: Positioned(
-          //     left: 0,
-          //     right: 0,
-          //     bottom: 70,
-          //     child: Container(
-          //       child: Column(
-          //         children: [
-          //           Text(
-          //             "Logged In",
-          //             style: MyCustomWidgets.textstyle(
-          //               textColor: AppColor.secondaryColor,
-          //               fontSize: 16,
-          //               fontWeight: FontWeight.w600,
-          //             ),
-          //           ),
-          //           Text(
-          //             formattedTime,
-          //             style: MyCustomWidgets.textstyle(
-          //               fontSize: 25,
-          //               fontWeight: FontWeight.w600,
-          //               textColor: AppColor.textColor,
-          //             ),
-          //           ),
-          //           Text(
-          //             "You are on Time ! Great",
-          //             style: MyCustomWidgets.textstyle(
-          //               textColor: AppColor.secondaryColor,
-          //               fontSize: 16,
-          //               fontWeight: FontWeight.w600,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -327,55 +285,55 @@ class _MyMapLocationState extends State<MyMapLocation>
         left: 0,
         right: 0,
         bottom: 70,
-        child: GestureDetector(
+        child: NeumorphicCircleButton(
+          isLogin: isLogin,
           onTap: _determinePosition,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (_, child) {
-              return Transform.rotate(
-                angle: _controller.value * 2 * 3.14 * 1, // 10 full rotations
-                child: child,
-              );
-            },
-            child: CircleAvatar(
-              radius: 60.0,
-              backgroundColor: isLogin
-                  ? AppColor.primaryColor
-                  : Colors.green.withAlpha(50),
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: AppColor.secondaryColor,
-                child: Text(
-                  isLogin
-                      ? AppLocalizations.of(context)!.login
-                      : AppLocalizations.of(context)!.logout,
-                  style: MyCustomWidgets.textstyle(
-                    textColor: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          isTaskCreated: taskCreated,
         ),
       );
-    } else {
-      Container(
-        child: Column(
-          children: [
-            Text("Logged In"),
-            Text(formattedTime),
-            Text("Yor are on Time! Great"),
-          ],
+    } else if (taskCreated) {
+      return Positioned(
+        left: 0,
+        right: 0,
+        bottom: 70,
+        child: NeumorphicCircleButtonCheckIn(
+          isLogin: isLogin,
+
+          isTaskCreated: taskCreated,
         ),
       );
     }
-    return Container(
+
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 70,
       child: Column(
         children: [
-          Text("Logged In"),
-          Text(formattedTime),
-          Text("Yor are on Time! Great"),
+          Text(
+            "Logged In",
+            style: MyCustomWidgets.textstyle(
+              textColor: AppColor.secondaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            formattedTime,
+            style: MyCustomWidgets.textstyle(
+              textColor: const Color.fromARGB(255, 68, 66, 66),
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            "Yor are on Time! Great",
+            style: MyCustomWidgets.textstyle(
+              textColor: const Color.fromARGB(255, 70, 66, 66),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
 import 'package:multi_localization_app/Views/home/home_providers.dart';
 import 'package:multi_localization_app/Views/home/home.dart';
 import 'package:multi_localization_app/Views/home/task_page.dart';
+import 'package:multi_localization_app/Views/home/tasklist_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
 import 'package:multi_localization_app/firebase_options.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        
+
         supportedLocales: [
           Locale('en'),
           Locale('hi'),
@@ -72,7 +73,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const SplashScreen(),
           '/home': (context) => const MyHome(),
-          '/task': (context) =>  TaskPage(),
+          '/task': (context) => TaskPage(),
+          '/CreateTaskList': (context) => CreateTaskList(),
         },
       ),
     );

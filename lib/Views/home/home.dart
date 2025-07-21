@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:multi_localization_app/OSM/osm.dart';
 import 'package:multi_localization_app/Views/home/home_providers.dart';
-import 'package:multi_localization_app/Views/home/my_map.dart';
+import 'package:multi_localization_app/Views/home/map_with_bottomsheet.dart';
 import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
@@ -48,6 +48,7 @@ class _MyHomeState extends State<MyHome> {
     final appLoc = AppLocalizations.of(context)!;
     print("build");
     return Scaffold(
+      
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // This shows all 5 items
         currentIndex: _selectedIndex,

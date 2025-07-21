@@ -6,10 +6,10 @@ class RouteProvider with ChangeNotifier {
 
   String get currentRoute => _currentRoute;
 
-  navigateTo(String routeName, BuildContext context) {
+  Future<dynamic> navigateTo(String routeName, BuildContext context) {
     _currentRoute = routeName;
     notifyListeners();
-    Navigator.pushNamed(context, routeName);
+    return Navigator.pushNamed(context, routeName); // 🔁 return the future
   }
 
   void navigateReplace(String routeName, BuildContext context) {

@@ -5,8 +5,7 @@ import 'package:multi_localization_app/constant/constant_widget.dart';
 import 'package:multi_localization_app/utils/custom_widgets.dart';
 
 class TaskPage extends StatefulWidget {
-  bool? islogin = true;
-  TaskPage({super.key, this.islogin});
+  TaskPage({super.key});
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -70,13 +69,11 @@ class _TaskPageState extends State<TaskPage> {
                         )
                         .closed
                         .then((_) {
-                          Navigator.of(
+                          Navigator.pop(
                             context,
-                          ).pop(); // Navigate back after snackbar disappears
+                            true,
+                          ); // Navigate back after snackbar disappears
                         });
-
-                    // Navigator.of(context).pop(tasklistController.text);
-                    print("task=>${tasklistController.text}");
                   },
                 ),
               ),

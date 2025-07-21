@@ -58,6 +58,8 @@ dependencies:
   geocoding: 
   google_maps_flutter: 
   flutter_toastr: ^1.0.3
+  lottie: 
+
   
  
 
@@ -90,6 +92,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgImages/
+    - assets/animated/
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
