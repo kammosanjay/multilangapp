@@ -26,7 +26,7 @@ class _NeumorphicCircleButtonState extends State<NeumorphicCircleButton> {
   Widget build(BuildContext context) {
     final backgroundColor = widget.isLogin
         ? AppColor.primaryColor
-        : Colors.green.withAlpha(50); 
+        : Colors.green.withAlpha(50);
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
@@ -45,13 +45,15 @@ class _NeumorphicCircleButtonState extends State<NeumorphicCircleButton> {
               ? [
                   // inner pressed effect
                   BoxShadow(
-                    color: Colors.black26,
+                    // color: Colors.black26,
+                    color: Colors.red.withAlpha(70),
                     offset: Offset(20, 20),
                     blurRadius: 60,
                     spreadRadius: 10,
                   ),
                   BoxShadow(
-                    color: Colors.white.withOpacity(0.8),
+                    // color: Colors.white.withOpacity(0.8),
+                    color: Colors.amber.withAlpha(70),
                     offset: Offset(-20, -20),
                     blurRadius: 60,
                     spreadRadius: 10,

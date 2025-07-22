@@ -21,5 +21,10 @@
   "description": "এটি পরীক্ষার জন্য একটি নমুনা বিবরণ।",
   "contact_us": "যোগাযোগ করুন",
   "about_us": "আমাদের সম্পর্কে",
-  "feedback": "মতামত পাঠান"
+  "feedback": "মতামত পাঠান",
+  "terms_and_conditions": "শর্তাবলী",
+  "privacy_policy": "গোপনীয়তা নীতি",
+  "rate_us": "আমাদের রেট দিন",
+  "support": "সাপোর্ট",
+  "help": "সাহায্য"
 }

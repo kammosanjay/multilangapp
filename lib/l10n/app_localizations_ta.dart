@@ -73,4 +73,19 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get feedback => 'கருத்துகளை அனுப்பு';
+
+  @override
+  String get terms_and_conditions => 'விதிமுறைகள் மற்றும் நிபந்தனைகள்';
+
+  @override
+  String get privacy_policy => 'தனியுரிமைக் கொள்கை';
+
+  @override
+  String get rate_us => 'எங்களை மதிப்பிடுங்கள்';
+
+  @override
+  String get support => 'ஆதரவு';
+
+  @override
+  String get help => 'உதவி';
 }

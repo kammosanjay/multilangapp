@@ -21,5 +21,10 @@
   "description": "Este es un texto de descripción de ejemplo para pruebas.",
   "contact_us": "Contáctanos",
   "about_us": "Sobre nosotros",
-  "feedback": "Enviar comentarios"
+  "feedback": "Enviar comentarios",
+  "terms_and_conditions": "Términos y condiciones",
+  "privacy_policy": "Política de privacidad",
+  "rate_us": "Califícanos",
+  "support": "Soporte",
+  "help": "Ayuda"
 }

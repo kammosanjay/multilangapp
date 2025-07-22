@@ -73,4 +73,19 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get feedback => 'رائے بھیجیں';
+
+  @override
+  String get terms_and_conditions => 'شرائط و ضوابط';
+
+  @override
+  String get privacy_policy => 'رازداری کی پالیسی';
+
+  @override
+  String get rate_us => 'ہمیں درجہ دیں';
+
+  @override
+  String get support => 'معاونت';
+
+  @override
+  String get help => 'مدد';
 }

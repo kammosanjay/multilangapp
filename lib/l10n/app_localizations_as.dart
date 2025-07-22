@@ -73,4 +73,19 @@ class AppLocalizationsAs extends AppLocalizations {
 
   @override
   String get feedback => 'প্ৰতিক্ৰিয়া পঠিওক';
+
+  @override
+  String get terms_and_conditions => 'নিয়ম আৰু চৰ্তাৱলী';
+
+  @override
+  String get privacy_policy => 'গোপনীয়তা নীতি';
+
+  @override
+  String get rate_us => 'আমাক ৰেট কৰক';
+
+  @override
+  String get support => 'সহায়তা';
+
+  @override
+  String get help => 'সহায়';
 }

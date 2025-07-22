@@ -73,4 +73,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedback => 'Send Feedback';
+
+  @override
+  String get terms_and_conditions => 'Terms & Conditions';
+
+  @override
+  String get privacy_policy => 'Privacy Policy';
+
+  @override
+  String get rate_us => 'Rate Us';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get help => 'Help';
 }

@@ -73,4 +73,19 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get feedback => 'ఫీడ్‌బ్యాక్ పంపండి';
+
+  @override
+  String get terms_and_conditions => 'నిబంధనలు మరియు షరతులు';
+
+  @override
+  String get privacy_policy => 'గోప్యతా విధానం';
+
+  @override
+  String get rate_us => 'మాకు రేట్ ఇవ్వండి';
+
+  @override
+  String get support => 'మద్దతు';
+
+  @override
+  String get help => 'సహాయం';
 }

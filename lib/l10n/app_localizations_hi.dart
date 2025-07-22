@@ -73,4 +73,19 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get feedback => 'प्रतिक्रिया भेजें';
+
+  @override
+  String get terms_and_conditions => 'नियम और शर्तें';
+
+  @override
+  String get privacy_policy => 'गोपनीयता नीति';
+
+  @override
+  String get rate_us => 'हमें रेट करें';
+
+  @override
+  String get support => 'सहायता';
+
+  @override
+  String get help => 'मदद';
 }

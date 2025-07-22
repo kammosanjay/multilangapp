@@ -1,14 +1,16 @@
 // import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:multi_localization_app/OSM/osm.dart';
-import 'package:multi_localization_app/Views/home/home_providers.dart';
+import 'dart:io';
+
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:multi_localization_app/Views/home/map_with_bottomsheet.dart';
 import 'package:multi_localization_app/Views/theme/theme_provider.dart';
+
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/Views/language/language.dart';
-import 'package:multi_localization_app/utils/custom_widgets.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -43,12 +45,13 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
+  String? imagePath;
+
   @override
   Widget build(BuildContext context) {
     final appLoc = AppLocalizations.of(context)!;
     print("build");
     return Scaffold(
-      
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // This shows all 5 items
         currentIndex: _selectedIndex,
@@ -97,30 +100,265 @@ class _MyHomeState extends State<MyHome> {
       ),
       drawer: SafeArea(
         child: Drawer(
-          elevation: 5,
-          child: ListView(
-            children: [
-              DrawerHeader(
-                child: Text(appLoc.welcome),
-                decoration: BoxDecoration(color: AppColor.primaryColor),
-              ),
-              ListTile(
-                title: Text("appLoc.changeTheme"),
-                onTap: () {
-                  // context.read<ThemeProvider>().toggleTheme();
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text("appLoc.changeLanguage"),
-                onTap: () {
-                  // This will be handled by the dropdown in the app bar
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          backgroundColor: AppColor.primaryColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: [
+                DrawerHeader(
+                  child: Stack(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 50,
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.white,
+                          child: imagePath != null
+                              ? Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: AppColor.primaryColor,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.file(
+                                      File(imagePath!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Image.asset(
+                                  'assets/images/student_as.png',
+                                  fit: BoxFit.cover,
+                                  color: AppColor.primaryColor,
+                                  height: 40,
+                                ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 100,
+                        right: 15,
+
+                        bottom: 60,
+                        child: InkWell(
+                          onTap: () {
+                            ImagePicker()
+                                .pickImage(source: ImageSource.gallery)
+                                .then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      imagePath =
+                                          value.path; // ✅ This rebuilds the UI
+                                    });
+                                    print("Selected image: ${value.path}");
+                                  }
+                                });
+                          },
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 25,
+                            color: Colors.indigo,
+                          ),
+                        ),
+                      ),
+                      // SvgPicture.asset(
+                      //   'assets/svgImages/refresh.svg',
+                      //   height: 50,
+                      //   width: 50,
+                      // ),
+                      const SizedBox(height: 10),
+                      Positioned(
+                        left: 40,
+                        right: 30,
+                        top: 100,
+                        bottom: 10,
+                        child: Text(
+                          appLoc.welcome,
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  spacing: 2,
+                  children: [
+                    ListTile(
+                      title: Text(appLoc.theme),
+
+                      style: ListTileStyle.list,
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // context.read<ThemeProvider>().toggleTheme();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            ThemeMode currentMode = ThemeMode.light;
+
+                            return AlertDialog(
+                              title: Text('Select Theme'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  RadioListTile<ThemeMode>(
+                                    title: Text('Light'),
+                                    value: ThemeMode.light,
+                                    groupValue: currentMode,
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        context
+                                            .read<ThemeProvider>()
+                                            .changeColor(Colors.red);
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  ),
+                                  RadioListTile<ThemeMode>(
+                                    title: Text('Dark'),
+                                    value: ThemeMode.dark,
+                                    groupValue: currentMode,
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        // context.read<ThemeProvider>().setTheme(
+                                        //   value,
+                                        // );
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  ),
+                                  RadioListTile<ThemeMode>(
+                                    title: Text('System Default'),
+                                    value: ThemeMode.system,
+                                    groupValue: currentMode,
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        // context.read<ThemeProvider>().setTheme(
+                                        //   value,
+                                        // );
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+
+                    ListTile(
+                      title: Text(appLoc.contact_us),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // context.read<HomeProvider>().logout();
+                        Navigator.pop(context);
+                      },
+                    ),
+
+                    ListTile(
+                      title: Text(appLoc.feedback),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show contact us dialog or navigate to contact page
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(appLoc.about_us),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show settings dialog or navigate to settings page
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(appLoc.support),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show help dialog or navigate to help page
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(appLoc.privacy_policy),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show feedback dialog or navigate to feedback page
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(appLoc.terms_and_conditions),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show terms and conditions dialog or navigate to terms page
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
+        //  DrawerButtonIcon(
+        // elevation: 5,
+        // child: ListView(
+        //   children: [
+        //     DrawerHeader(
+        //       child: Text(appLoc.welcome),
+        //       decoration: BoxDecoration(color: AppColor.primaryColor),
+        //     ),
+        //     ListTile(
+        //       title: Text("appLoc.changeTheme"),
+        //       onTap: () {
+        //         // context.read<ThemeProvider>().toggleTheme();
+        //         Navigator.pop(context);
+        //       },
+        //     ),
+        //     ListTile(
+        //       title: Text("appLoc.changeLanguage"),
+        //       onTap: () {
+        //         // This will be handled by the dropdown in the app bar
+        //         Navigator.pop(context);
+        //       },
+        //     ),
+        //   ],
+        // ),
+        // ),
       ),
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,

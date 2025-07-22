@@ -73,4 +73,19 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get feedback => 'ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ';
+
+  @override
+  String get terms_and_conditions => 'ನಿಯಮಗಳು ಮತ್ತು ಶರತ್ತುಗಳು';
+
+  @override
+  String get privacy_policy => 'ಗೌಪ್ಯತೆ ನೀತಿ';
+
+  @override
+  String get rate_us => 'ನಮ್ಮನ್ನು ಮೌಲ್ಯಮಾಪನಿಸಿ';
+
+  @override
+  String get support => 'ಬೆಂಬಲ';
+
+  @override
+  String get help => 'ಸಹಾಯ';
 }

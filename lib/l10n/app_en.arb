@@ -21,5 +21,10 @@
   "description": "This is a sample description text for testing.",
   "contact_us": "Contact Us",
   "about_us": "About Us",
-  "feedback": "Send Feedback"
+  "feedback": "Send Feedback",
+  "terms_and_conditions": "Terms & Conditions",
+  "privacy_policy": "Privacy Policy",
+  "rate_us": "Rate Us",
+  "support": "Support",
+  "help": "Help"
 }

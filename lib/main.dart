@@ -25,7 +25,10 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => Language(),
-      child: const MyApp(),
+      child: ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        // ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
         ChangeNotifierProvider<SplashProvider>(create: (_) => SplashProvider()),
         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
         ChangeNotifierProvider<RouteProvider>(create: (_) => RouteProvider()),
@@ -67,9 +70,9 @@ class MyApp extends StatelessWidget {
         ],
         theme: ThemeProvider().themeData,
         locale: context.watch<Language>().selectectLocale,
-
+        themeMode: ThemeMode.dark,
         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
-        // home: SplashScreen(),
+        // home: HomePage(),
         routes: {
           '/': (context) => const SplashScreen(),
           '/home': (context) => const MyHome(),

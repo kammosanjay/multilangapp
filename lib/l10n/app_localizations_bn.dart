@@ -73,4 +73,19 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get feedback => 'মতামত পাঠান';
+
+  @override
+  String get terms_and_conditions => 'শর্তাবলী';
+
+  @override
+  String get privacy_policy => 'গোপনীয়তা নীতি';
+
+  @override
+  String get rate_us => 'আমাদের রেট দিন';
+
+  @override
+  String get support => 'সাপোর্ট';
+
+  @override
+  String get help => 'সাহায্য';
 }

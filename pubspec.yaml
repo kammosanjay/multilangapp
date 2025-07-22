@@ -59,7 +59,8 @@ dependencies:
   google_maps_flutter: 
   flutter_toastr: ^1.0.3
   lottie: 
-
+  file_picker: 
+  image_picker: 
   
  
 
@@ -93,6 +94,7 @@ flutter:
     - assets/images/
     - assets/svgImages/
     - assets/animated/
+    - assets/lottie/
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

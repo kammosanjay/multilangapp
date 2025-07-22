@@ -242,6 +242,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send Feedback'**
   String get feedback;
+
+  /// No description provided for @terms_and_conditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get terms_and_conditions;
+
+  /// No description provided for @privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacy_policy;
+
+  /// No description provided for @rate_us.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Us'**
+  String get rate_us;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @help.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
