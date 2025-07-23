@@ -1,11 +1,16 @@
 // import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
+import 'package:multi_localization_app/Views/home/home_providers.dart';
 
 import 'package:multi_localization_app/Views/home/map_with_bottomsheet.dart';
 import 'package:multi_localization_app/Views/theme/theme_provider.dart';
+import 'package:multi_localization_app/Views/todolist/todo_list.dart';
 
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
@@ -13,6 +18,7 @@ import 'package:multi_localization_app/Views/language/language.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: depend_on_referenced_packages
 
@@ -29,7 +35,7 @@ class _MyHomeState extends State<MyHome> {
   final List<Widget> _pages = [
     MyMapLocation(),
     Center(child: Container(color: AppColor.primaryColor)),
-    Center(child: Container(color: AppColor.secondaryColor)),
+    TodoListPage(),
     Center(child: Container(color: AppColor.buttonColor)),
     Center(child: Container(color: AppColor.errorColor)),
   ];
@@ -45,7 +51,52 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
-  String? imagePath;
+  // String? imagePath;
+
+  Future<void> aboutUs() async {
+    if (!await launchUrl(
+      Uri.parse("https://www.softgentech.com/aboutus/"),
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch URL');
+    }
+  }
+
+  Future<void> privacyPolicy() async {
+    if (!await launchUrl(
+      Uri.parse("https://www.softgentech.com/aboutus/"),
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch URL');
+    }
+  }
+
+  Future<void> termsAndcdtn() async {
+    if (!await launchUrl(
+      Uri.parse("https://www.softgentech.com/aboutus/"),
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch URL');
+    }
+  }
+
+  Future<void> contactUs() async {
+    if (!await launchUrl(
+      Uri.parse("https://www.softgentech.com/contact-us/"),
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch URL');
+    }
+  }
+
+  final List<String> imageList = [
+    "assets/svgImages/menu.svg",
+    "assets/svgImages/contact.svg",
+    "assets/svgImages/support.svg",
+    "assets/svgImages/theme.svg",
+    "assets/svgImages/aboutus.svg",
+    "assets/svgImages/privacy.svg",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,45 +107,39 @@ class _MyHomeState extends State<MyHome> {
         type: BottomNavigationBarType.fixed, // This shows all 5 items
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/images/attendance.png'),
-              size: 30.0,
+            icon: SvgPicture.asset(
+              'assets/svgImages/attendance.svg',
+              height: 25,
+              width: 25,
             ),
+
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/images/track.png'),
-              size: 30.0,
-              color: Colors.black,
+            icon: SvgPicture.asset(
+              'assets/svgImages/track.svg',
+              height: 25,
+              width: 25,
             ),
-            label: 'Track',
+            label: 'Activity',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/images/task.png'),
-              size: 30.0,
-              color: Colors.green,
+            icon: SvgPicture.asset(
+              'assets/svgImages/task.svg',
+              height: 25,
+              width: 25,
             ),
-            label: 'Task',
+            label: 'To Do',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/images/leads.png'),
-              size: 30.0,
-              color: Colors.indigo,
+            icon: SvgPicture.asset(
+              'assets/svgImages/leads.svg',
+              height: 25,
+              width: 25,
             ),
-            label: 'Leads',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/images/more.png'),
-              size: 30.0,
-              color: Colors.red,
-            ),
-            label: 'More',
+            label: 'Report',
           ),
         ],
       ),
@@ -118,56 +163,84 @@ class _MyHomeState extends State<MyHome> {
                         child: CircleAvatar(
                           radius: 20,
                           backgroundColor: Colors.white,
-                          child: imagePath != null
-                              ? Container(
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: AppColor.primaryColor,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Image.file(
-                                      File(imagePath!),
+                          child: Consumer(
+                            builder: (ctx, value, child) {
+                              final imagePath = ctx
+                                  .watch<HomeProviders>()
+                                  .image
+                                  ?.path;
+                              return imagePath != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.file(
+                                        File(imagePath),
+                                        fit: BoxFit.cover,
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                    )
+                                  : Image.asset(
+                                      'assets/images/student_as.png',
                                       fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                )
-                              : Image.asset(
-                                  'assets/images/student_as.png',
-                                  fit: BoxFit.cover,
-                                  color: AppColor.primaryColor,
-                                  height: 40,
-                                ),
+                                      height: 40,
+                                    );
+                            },
+                          ),
                         ),
                       ),
+
                       Positioned(
                         left: 100,
                         right: 15,
 
                         bottom: 60,
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () {
-                            ImagePicker()
-                                .pickImage(source: ImageSource.gallery)
-                                .then((value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      imagePath =
-                                          value.path; // ✅ This rebuilds the UI
-                                    });
-                                    print("Selected image: ${value.path}");
-                                  }
-                                });
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Select Image"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.camera_alt),
+                                        title: Text("Gallery"),
+                                        onTap: () {
+                                          // context
+                                          //     .read<HomeProviders>()
+                                          //     .pickImage();
+                                          context
+                                              .read<HomeProviders>()
+                                              .pickImage();
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.photo_library),
+                                        title: Text("Camera"),
+                                        onTap: () {
+                                          context
+                                              .read<HomeProviders>()
+                                              .pickImageFromCamera();
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
                           },
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 25,
-                            color: Colors.indigo,
+                          child: SvgPicture.asset(
+                            'assets/svgImages/camera.svg',
+                            height: 20,
+                            width: 20,
                           ),
                         ),
                       ),
+
                       // SvgPicture.asset(
                       //   'assets/svgImages/refresh.svg',
                       //   height: 50,
@@ -195,7 +268,14 @@ class _MyHomeState extends State<MyHome> {
                   spacing: 2,
                   children: [
                     ListTile(
-                      title: Text(appLoc.theme),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.theme),
+                          SvgPicture.asset("assets/svgImages/theme.svg"),
+                        ],
+                      ),
 
                       style: ListTileStyle.list,
                       tileColor: AppColor.backgroundColor,
@@ -262,70 +342,124 @@ class _MyHomeState extends State<MyHome> {
                     ),
 
                     ListTile(
-                      title: Text(appLoc.contact_us),
+                      // title: Text(appLoc.contact_us),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.contact_us),
+                          SvgPicture.asset("assets/svgImages/contact.svg"),
+                        ],
+                      ),
                       tileColor: AppColor.backgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onTap: () {
                         // context.read<HomeProvider>().logout();
-                        Navigator.pop(context);
+                        contactUs();
+                        // Navigator.pop(context);
                       },
                     ),
 
                     ListTile(
-                      title: Text(appLoc.feedback),
+                      // title: Text(appLoc.feedback),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.feedback),
+                          SvgPicture.asset("assets/svgImages/support.svg"),
+                        ],
+                      ),
                       tileColor: AppColor.backgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onTap: () {
                         // Show contact us dialog or navigate to contact page
-                        Navigator.pop(context);
+
+                        // Navigator.pop(context);
                       },
                     ),
                     ListTile(
-                      title: Text(appLoc.about_us),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                      // title: Text(appLoc.support),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Leave Request"),
+                          SvgPicture.asset("assets/svgImages/support.svg"),
+                        ],
                       ),
-                      onTap: () {
-                        // Show settings dialog or navigate to settings page
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      title: Text(appLoc.support),
                       tileColor: AppColor.backgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onTap: () {
                         // Show help dialog or navigate to help page
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                     ),
                     ListTile(
-                      title: Text(appLoc.privacy_policy),
+                      // title: Text(appLoc.about_us),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.about_us),
+                          SvgPicture.asset("assets/svgImages/aboutus.svg"),
+                        ],
+                      ),
+                      tileColor: AppColor.backgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onTap: () {
+                        // Show settings dialog or navigate to settings page
+                        // Navigator.pop(context);
+                        aboutUs();
+                      },
+                    ),
+
+                    ListTile(
+                      // title: Text(appLoc.privacy_policy),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.privacy_policy),
+                          SvgPicture.asset("assets/svgImages/privacy.svg"),
+                        ],
+                      ),
                       tileColor: AppColor.backgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onTap: () {
                         // Show feedback dialog or navigate to feedback page
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        privacyPolicy();
                       },
                     ),
                     ListTile(
-                      title: Text(appLoc.terms_and_conditions),
+                      // title: Text(appLoc.terms_and_conditions),
+                      title: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(appLoc.terms_and_conditions),
+                          SvgPicture.asset("assets/svgImages/terms-check.svg"),
+                        ],
+                      ),
                       tileColor: AppColor.backgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onTap: () {
                         // Show terms and conditions dialog or navigate to terms page
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        termsAndcdtn();
                       },
                     ),
                   ],
@@ -370,30 +504,28 @@ class _MyHomeState extends State<MyHome> {
                 Scaffold.of(context).openDrawer();
               },
               child: Container(
-                margin: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: AppColor.primaryColor,
-                  // shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white,
+                margin: const EdgeInsets.only(top: 10),
 
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      offset: const Offset(5, 5),
-                    ),
-                    // BoxShadow(
-                    //   color: Colors.grey,
-                    //   blurRadius: 5,
-                    //   spreadRadius: 2,
-                    //   offset: const Offset(-5, -5),
-                    // ),
-                  ],
-                ),
-                child: Image.asset(
-                  'assets/images/app-drawer.png',
-                  height: 10,
-                  width: 10,
+                child: GFCarousel(
+                  autoPlay: true,
+
+                  autoPlayInterval: Duration(seconds: 2),
+                  // autoPlayAnimationDuration: Duration(milliseconds: 1600),
+                  items: imageList.map((url) {
+                    return ClipRRect(
+                      child: SvgPicture.asset(
+                        url,
+                        fit: BoxFit.contain,
+                        height: 20,
+                        width: 20,
+                      ),
+                    );
+                  }).toList(),
+                  onPageChanged: (index) {
+                    // setState(() {
+                    //   index;
+                    // });
+                  },
                 ),
               ),
             );
@@ -466,10 +598,10 @@ class _MyHomeState extends State<MyHome> {
                     // ),
                   ],
                 ),
-                child: Image.asset(
-                  'assets/images/translation.png',
-                  width: 20,
+                child: SvgPicture.asset(
+                  'assets/svgImages/lang.svg',
                   height: 20,
+                  width: 20,
                 ),
               ),
             ),

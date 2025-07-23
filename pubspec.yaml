@@ -61,6 +61,8 @@ dependencies:
   lottie: 
   file_picker: 
   image_picker: 
+  url_launcher: ^6.3.2
+  
   
  
 

@@ -81,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
             context.read<SplashProvider>().initializeApp(context);
           },
           doneButton: const Icon(Icons.check, color: Colors.white),
-          navigationBarHeight: 50,
+          navigationBarHeight: 55,
           navigationBarWidth: double.infinity,
           navigationBarShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

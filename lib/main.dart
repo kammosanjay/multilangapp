@@ -11,6 +11,7 @@ import 'package:multi_localization_app/Views/home/task_page.dart';
 import 'package:multi_localization_app/Views/home/tasklist_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
+import 'package:multi_localization_app/Views/todolist/todo_provider.dart';
 import 'package:multi_localization_app/firebase_options.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/Views/language/language.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<SplashProvider>(create: (_) => SplashProvider()),
         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
         ChangeNotifierProvider<RouteProvider>(create: (_) => RouteProvider()),
+        ChangeNotifierProvider<TodoProvider>(create: (_) => TodoProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -70,7 +72,7 @@ class MyApp extends StatelessWidget {
         ],
         theme: ThemeProvider().themeData,
         locale: context.watch<Language>().selectectLocale,
-        themeMode: ThemeMode.dark,
+
         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
         // home: HomePage(),
         routes: {

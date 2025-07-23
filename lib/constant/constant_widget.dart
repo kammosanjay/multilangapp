@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomWidgets {
   ///TextFeild Widget
@@ -193,6 +194,8 @@ class CustomWidgets {
     double? height,
     Color? btnColor,
     double? radius,
+    double? fontSize,
+    FontWeight? fontWeight,
   }) {
     return ElevatedButton(
       onPressed: () {
@@ -205,7 +208,16 @@ class CustomWidgets {
           borderRadius: BorderRadius.circular(radius!), // Set border radius
         ), // Button color
       ),
-      child: Text(buttonName!, style: TextStyle(fontSize: 20)),
+      child: FittedBox(
+        child: Text(
+          buttonName!,
+          style: GoogleFonts.poppins(
+            fontSize: fontSize ?? 12,
+            fontWeight: fontWeight ?? FontWeight.w600,
+            color: Colors.white, // Text color
+          ),
+        ),
+      ),
     );
   }
 
@@ -213,7 +225,7 @@ class CustomWidgets {
   ///
   static Widget customTextFieldupdate({
     required BuildContext context,
-    required String? errorText,
+    String? errorText,
     String? name,
     String? hint,
     TextEditingController? controller,
@@ -239,7 +251,7 @@ class CustomWidgets {
           color: Colors.white,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           elevation: 5,
           child: TextFormField(
@@ -262,15 +274,9 @@ class CustomWidgets {
               prefixIcon: icon,
               prefixIconColor: iconColor,
               hintText: hint,
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.blueAccent.withOpacity(0.5),
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
               border: InputBorder.none,
             ),
