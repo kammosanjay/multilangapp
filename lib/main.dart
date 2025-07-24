@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:multi_localization_app/MyPageRoute/myPage_routes.dart';
 import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
         ChangeNotifierProvider<SplashProvider>(create: (_) => SplashProvider()),
         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
         ChangeNotifierProvider<RouteProvider>(create: (_) => RouteProvider()),
@@ -71,6 +72,9 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         theme: ThemeProvider().themeData,
+        themeMode: ThemeProvider().themeMode,
+        darkTheme: ThemeProvider().darkTheme,
+
         locale: context.watch<Language>().selectectLocale,
 
         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.

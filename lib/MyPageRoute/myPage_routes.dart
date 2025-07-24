@@ -5,7 +5,7 @@ import 'package:multi_localization_app/Views/themeColor.dart';
 
 class MypageRoutes {
   static const String myPage = '/myPage';
-  static const String myPageDetail = '/myPageDetail';
+  static const String mytheme = '/mytheme';
   static const String splash = '/splash';
 
   static List<GetPage> routes = [
@@ -16,8 +16,8 @@ class MypageRoutes {
       transition: Transition.fadeIn,
     ),
     GetPage(
-      name: myPageDetail,
-      page: () => HomePage(),
+      name: mytheme,
+      page: () => ThemePage(),
       transition: Transition.rightToLeft,
     ),
   ];

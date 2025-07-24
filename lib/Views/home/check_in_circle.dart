@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
+import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/utils/custom_widgets.dart';
 import 'package:provider/provider.dart';
@@ -7,13 +8,12 @@ import 'package:provider/provider.dart';
 import '../../constant/appColor.dart';
 
 class NeumorphicCircleButtonCheckIn extends StatefulWidget {
-  final bool isLogin;
-  
+  // final bool isLogin;
+
   final bool isTaskCreated;
 
   const NeumorphicCircleButtonCheckIn({
-    required this.isLogin,
-    
+    // required this.isLogin,
     required this.isTaskCreated,
   });
 
@@ -28,15 +28,13 @@ class _NeumorphicCircleButtonCheckInState
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = widget.isLogin
-        ? AppColor.primaryColor
-        : Colors.green.withAlpha(50);
+    final backgroundColor = Colors.green.withAlpha(50);
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
         setState(() => _isPressed = false);
-      // context.read<RouteProvider>().navigateTo('/CreateTasklist', context);
+        // context.read<RouteProvider>().navigateTo('/CreateTasklist', context);
       },
       // onTapCancel: () => setState(() => _isPressed = false),
       child: AnimatedContainer(
@@ -80,15 +78,19 @@ class _NeumorphicCircleButtonCheckInState
         child: CircleAvatar(
           radius: 50,
           backgroundColor: AppColor.secondaryColor,
-          child: Text(
-            "Check-In",
-            // widget.isLogin
-            //     ? AppLocalizations.of(context)!.login
-            //     : AppLocalizations.of(context)!.logout,
-            style: MyCustomWidgets.textstyle(
-              textColor: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
+          child: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return Text(
+                "Check-In",
+                // widget.isLogin
+                //     ? AppLocalizations.of(context)!.login
+                //     : AppLocalizations.of(context)!.logout,
+                style: themeProvider.themeData.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              );
+            },
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyCustomWidgets {
   // TextStyle for consistent text styling across the app
-  static textstyle({
+ static textstyle({
     double fontSize = 16,
     Color textColor = Colors.black,
     FontWeight fontWeight = FontWeight.normal,

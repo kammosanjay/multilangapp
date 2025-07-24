@@ -91,382 +91,572 @@ class _MyHomeState extends State<MyHome> {
 
   final List<String> imageList = [
     "assets/svgImages/menu.svg",
-    "assets/svgImages/contact.svg",
-    "assets/svgImages/support.svg",
-    "assets/svgImages/theme.svg",
-    "assets/svgImages/aboutus.svg",
-    "assets/svgImages/privacy.svg",
+    "assets/svgImages/customer-service.svg",
+    "assets/svgImages/leave.svg",
+    "assets/svgImages/about.svg",
+    "assets/svgImages/mode.svg",
+    "assets/svgImages/policy.svg",
   ];
 
   @override
   Widget build(BuildContext context) {
     final appLoc = AppLocalizations.of(context)!;
+
     print("build");
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // This shows all 5 items
+        backgroundColor: AppColor.primaryColor,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.deepPurple, // This shows all 5 items
+        unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
+        unselectedFontSize: 10,
+        selectedLabelStyle: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelStyle: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+        landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
+            tooltip: "Attendance",
+
             icon: SvgPicture.asset(
-              'assets/svgImages/attendance.svg',
+              'assets/svgImages/thinperson.svg',
               height: 25,
               width: 25,
+              // color: _selectedIndex == 0 ? Colors.deepPurple : null,
             ),
 
             label: 'Attendance',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svgImages/track.svg',
+              'assets/svgImages/trackthin.svg',
               height: 25,
               width: 25,
+              // color: _selectedIndex == 1 ? Colors.deepPurple : null,
             ),
             label: 'Activity',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svgImages/task.svg',
+              'assets/svgImages/todothin.svg',
               height: 25,
               width: 25,
+              // color: _selectedIndex == 2 ? Colors.deepPurple : null,
             ),
             label: 'To Do',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/svgImages/leads.svg',
+              'assets/svgImages/reportthin.svg',
               height: 25,
               width: 25,
+              // color: _selectedIndex == 3 ? Colors.deepPurple : null,
             ),
             label: 'Report',
           ),
         ],
       ),
       drawer: SafeArea(
-        child: Drawer(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          backgroundColor: AppColor.primaryColor,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              children: [
-                DrawerHeader(
-                  child: Stack(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 50,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.white,
-                          child: Consumer(
-                            builder: (ctx, value, child) {
-                              final imagePath = ctx
-                                  .watch<HomeProviders>()
-                                  .image
-                                  ?.path;
-                              return imagePath != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Image.file(
-                                        File(imagePath),
-                                        fit: BoxFit.cover,
-                                        height: 80,
-                                        width: 80,
-                                      ),
-                                    )
-                                  : Image.asset(
-                                      'assets/images/student_as.png',
-                                      fit: BoxFit.cover,
-                                      height: 40,
-                                    );
-                            },
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            return Drawer(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              backgroundColor: AppColor.primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: [
+                    DrawerHeader(
+                      child: Stack(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 50,
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.white,
+                              child: Consumer(
+                                builder: (ctx, value, child) {
+                                  final imagePath = ctx
+                                      .watch<HomeProviders>()
+                                      .image
+                                      ?.path;
+                                  return imagePath != null
+                                      ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            50,
+                                          ),
+                                          child: Image.file(
+                                            File(imagePath),
+                                            fit: BoxFit.cover,
+                                            height: 80,
+                                            width: 80,
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Colors.grey,
+                                        );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+
+                          Positioned(
+                            left: 100,
+                            right: 15,
+
+                            bottom: 60,
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text("Select Image"),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.camera_alt),
+                                            title: Text("Gallery"),
+                                            onTap: () {
+                                              // context
+                                              //     .read<HomeProviders>()
+                                              //     .pickImage();
+                                              context
+                                                  .read<HomeProviders>()
+                                                  .pickImage();
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.photo_library),
+                                            title: Text("Camera"),
+                                            onTap: () {
+                                              context
+                                                  .read<HomeProviders>()
+                                                  .pickImageFromCamera();
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: SvgPicture.asset(
+                                'assets/svgImages/camera.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                            ),
+                          ),
+
+                          // SvgPicture.asset(
+                          //   'assets/svgImages/refresh.svg',
+                          //   height: 50,
+                          //   width: 50,
+                          // ),
+                          const SizedBox(height: 10),
+                          Positioned(
+                            left: 40,
+                            right: 30,
+                            top: 100,
+                            bottom: 10,
+                            child: Text(
+                              appLoc.welcome,
+                              style:
+                                  themeProvider.themeData.textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    Column(
+                      spacing: 2,
+                      children: [
+                        // ListTile(
+                        //   title: Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text(appLoc.theme),
+                        //       SvgPicture.asset("assets/svgImages/theme.svg"),
+                        //     ],
+                        //   ),
 
-                      Positioned(
-                        left: 100,
-                        right: 15,
+                        //   style: ListTileStyle.list,
+                        //   tileColor: AppColor.backgroundColor,
+                        //   shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(5),
+                        //   ),
+                        //   onTap: () {
+                        //     // context.read<ThemeProvider>().toggleTheme();
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (context) {
+                        //         return AlertDialog(
+                        //           title: Text('Select Theme'),
+                        //           content: Container(
+                        //             height: 200,
+                        //             width: 200,
+                        //             child: GridView.builder(
+                        //               gridDelegate:
+                        //                   SliverGridDelegateWithFixedCrossAxisCount(
+                        //                     crossAxisCount: 5,
+                        //                     childAspectRatio: 1,
+                        //                   ),
+                        //               itemBuilder: (context, index) {
+                        //                 final colors = ThemeProvider.colors;
+                        //                 return GestureDetector(
+                        //                   onTap: () {
+                        //                     themeProvider.changeColor(
+                        //                       colors[index],
+                        //                     );
+                        //                     Navigator.pop(context);
+                        //                   },
+                        //                   child: Container(
+                        //                     width: 50,
+                        //                     height: 50,
+                        //                     margin: EdgeInsets.all(5),
+                        //                     decoration: BoxDecoration(
+                        //                       color: colors[index],
+                        //                       shape: BoxShape.circle,
+                        //                       border: Border.all(
+                        //                         color:
+                        //                             context
+                        //                                     .watch<
+                        //                                       ThemeProvider
+                        //                                     >()
+                        //                                     .primaryColor ==
+                        //                                 colors[index]
+                        //                             ? Colors.black
+                        //                             : Colors.transparent,
+                        //                         width: 2,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 );
+                        //               },
+                        //               itemCount: ThemeProvider.colors.length,
+                        //             ),
+                        //           ),
+                        //         );
+                        //       },
+                        //     );
+                        //   },
+                        // ),
+                        ListTile(
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Theme Mode',
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              Image.asset(
+                                "assets/images/night.png",
+                                scale: 1,
+                                height: 25,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
 
-                        bottom: 60,
-                        child: GestureDetector(
+                          style: ListTileStyle.list,
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (context) {
+                                ThemeMode currentMode = themeProvider.themeMode;
+
                                 return AlertDialog(
-                                  title: Text("Select Image"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        leading: Icon(Icons.camera_alt),
-                                        title: Text("Gallery"),
-                                        onTap: () {
-                                          // context
-                                          //     .read<HomeProviders>()
-                                          //     .pickImage();
-                                          context
-                                              .read<HomeProviders>()
-                                              .pickImage();
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                      ListTile(
-                                        leading: Icon(Icons.photo_library),
-                                        title: Text("Camera"),
-                                        onTap: () {
-                                          context
-                                              .read<HomeProviders>()
-                                              .pickImageFromCamera();
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
+                                  title: Text(
+                                    'Select Theme',
+                                    style: themeProvider
+                                        .themeData
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: AppColor.textColor),
+                                  ),
+                                  content: Container(
+                                    height: 200,
+                                    width: 200,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        RadioListTile<ThemeMode>(
+                                          title: Text(
+                                            'Light',
+                                            style: themeProvider
+                                                .themeData
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: AppColor.textColor,
+                                                ),
+                                          ),
+                                          value: ThemeMode.light,
+                                          groupValue: currentMode,
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              themeProvider.lightTheme;
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                        ),
+                                        RadioListTile<ThemeMode>(
+                                          title: Text(
+                                            'Dark',
+                                            style: themeProvider
+                                                .themeData
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: AppColor.textColor,
+                                                ),
+                                          ),
+                                          value: ThemeMode.dark,
+                                          groupValue: currentMode,
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              themeProvider.darkTheme;
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                        ),
+                                        RadioListTile<ThemeMode>(
+                                          title: Text(
+                                            'System Default',
+                                            style: themeProvider
+                                                .themeData
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: AppColor.textColor,
+                                                ),
+                                          ),
+                                          value: ThemeMode.system,
+                                          groupValue: currentMode,
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              themeProvider.themeMode;
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
                             );
                           },
-                          child: SvgPicture.asset(
-                            'assets/svgImages/camera.svg',
-                            height: 20,
-                            width: 20,
-                          ),
                         ),
-                      ),
 
-                      // SvgPicture.asset(
-                      //   'assets/svgImages/refresh.svg',
-                      //   height: 50,
-                      //   width: 50,
-                      // ),
-                      const SizedBox(height: 10),
-                      Positioned(
-                        left: 40,
-                        right: 30,
-                        top: 100,
-                        bottom: 10,
-                        child: Text(
-                          appLoc.welcome,
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  spacing: 2,
-                  children: [
-                    ListTile(
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.theme),
-                          SvgPicture.asset("assets/svgImages/theme.svg"),
-                        ],
-                      ),
-
-                      style: ListTileStyle.list,
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // context.read<ThemeProvider>().toggleTheme();
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            ThemeMode currentMode = ThemeMode.light;
-
-                            return AlertDialog(
-                              title: Text('Select Theme'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  RadioListTile<ThemeMode>(
-                                    title: Text('Light'),
-                                    value: ThemeMode.light,
-                                    groupValue: currentMode,
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        context
-                                            .read<ThemeProvider>()
-                                            .changeColor(Colors.red);
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  ),
-                                  RadioListTile<ThemeMode>(
-                                    title: Text('Dark'),
-                                    value: ThemeMode.dark,
-                                    groupValue: currentMode,
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        // context.read<ThemeProvider>().setTheme(
-                                        //   value,
-                                        // );
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  ),
-                                  RadioListTile<ThemeMode>(
-                                    title: Text('System Default'),
-                                    value: ThemeMode.system,
-                                    groupValue: currentMode,
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        // context.read<ThemeProvider>().setTheme(
-                                        //   value,
-                                        // );
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  ),
-                                ],
+                        ListTile(
+                          // title: Text(appLoc.contact_us),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLoc.contact_us,
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
                               ),
-                            );
+                              SvgPicture.asset(
+                                "assets/svgImages/customer-service.svg",
+                              ),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // context.read<HomeProvider>().logout();
+                            contactUs();
+                            // Navigator.pop(context);
                           },
-                        );
-                      },
-                    ),
+                        ),
 
-                    ListTile(
-                      // title: Text(appLoc.contact_us),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.contact_us),
-                          SvgPicture.asset("assets/svgImages/contact.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // context.read<HomeProvider>().logout();
-                        contactUs();
-                        // Navigator.pop(context);
-                      },
-                    ),
+                        ListTile(
+                          // title: Text(appLoc.feedback),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLoc.feedback,
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              SvgPicture.asset(
+                                "assets/svgImages/feedback-review.svg",
+                              ),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // Show contact us dialog or navigate to contact page
 
-                    ListTile(
-                      // title: Text(appLoc.feedback),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.feedback),
-                          SvgPicture.asset("assets/svgImages/support.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // Show contact us dialog or navigate to contact page
+                            // Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          // title: Text(appLoc.support),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Leave Request",
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              SvgPicture.asset(
+                                "assets/svgImages/wheelchair-sleeping.svg",
+                              ),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // Show help dialog or navigate to help page
+                            // Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          // title: Text(appLoc.about_us),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLoc.about_us,
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              SvgPicture.asset("assets/svgImages/about.svg"),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // Show settings dialog or navigate to settings page
+                            // Navigator.pop(context);
+                            aboutUs();
+                          },
+                        ),
 
-                        // Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      // title: Text(appLoc.support),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Leave Request"),
-                          SvgPicture.asset("assets/svgImages/support.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // Show help dialog or navigate to help page
-                        // Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      // title: Text(appLoc.about_us),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.about_us),
-                          SvgPicture.asset("assets/svgImages/aboutus.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // Show settings dialog or navigate to settings page
-                        // Navigator.pop(context);
-                        aboutUs();
-                      },
-                    ),
-
-                    ListTile(
-                      // title: Text(appLoc.privacy_policy),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.privacy_policy),
-                          SvgPicture.asset("assets/svgImages/privacy.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // Show feedback dialog or navigate to feedback page
-                        // Navigator.pop(context);
-                        privacyPolicy();
-                      },
-                    ),
-                    ListTile(
-                      // title: Text(appLoc.terms_and_conditions),
-                      title: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(appLoc.terms_and_conditions),
-                          SvgPicture.asset("assets/svgImages/terms-check.svg"),
-                        ],
-                      ),
-                      tileColor: AppColor.backgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      onTap: () {
-                        // Show terms and conditions dialog or navigate to terms page
-                        // Navigator.pop(context);
-                        termsAndcdtn();
-                      },
+                        ListTile(
+                          // title: Text(appLoc.privacy_policy),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLoc.privacy_policy,
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              SvgPicture.asset("assets/svgImages/policy.svg"),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // Show feedback dialog or navigate to feedback page
+                            // Navigator.pop(context);
+                            privacyPolicy();
+                          },
+                        ),
+                        ListTile(
+                          // title: Text(appLoc.terms_and_conditions),
+                          title: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLoc.terms_and_conditions,
+                                style: themeProvider
+                                    .themeData
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColor.textColor),
+                              ),
+                              SvgPicture.asset(
+                                "assets/svgImages/termsConditions.svg",
+                              ),
+                            ],
+                          ),
+                          tileColor: AppColor.backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onTap: () {
+                            // Show terms and conditions dialog or navigate to terms page
+                            // Navigator.pop(context);
+                            termsAndcdtn();
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
         //  DrawerButtonIcon(
         // elevation: 5,
@@ -495,8 +685,15 @@ class _MyHomeState extends State<MyHome> {
         // ),
       ),
       appBar: AppBar(
-        backgroundColor: AppColor.primaryColor,
-        title: Text(appLoc.welcome),
+        // backgroundColor: AppColor.primaryColor,
+        title: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            return Text(
+              appLoc.welcome,
+              style: themeProvider.themeData.textTheme.bodyMedium,
+            );
+          },
+        ),
         leading: Builder(
           builder: (context) {
             return GestureDetector(

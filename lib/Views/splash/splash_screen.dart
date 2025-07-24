@@ -53,54 +53,63 @@ class _SplashScreenState extends State<SplashScreen> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: GFIntroScreen(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        // color: Colors.amber,
-        // borderRadius: BorderRadius.circular(40),
-        // border: Border.all(color: Colors.grey),
-        slides: slides(),
-        pageController: _pageController,
-        introScreenBottomNavigationBar: GFIntroScreenBottomNavigationBar(
-          pageController: _pageController,
-          pageCount: slideList!.length,
-          currentIndex: initialPage!,
-          backButtonText: 'Previous',
-          forwardButton: const Icon(Icons.arrow_forward, color: Colors.white),
-          backButton: const Icon(Icons.arrow_back, color: Colors.white),
-
-          forwardButtonText: 'Next',
-          skipButtonText: 'Skip',
-          doneButtonText: 'Done',
-          onDoneTap: () {
-            context.read<SplashProvider>().initializeApp(context);
-          },
-          onSkipTap: () {
-            context.read<SplashProvider>().initializeApp(context);
-          },
-          doneButton: const Icon(Icons.check, color: Colors.white),
-          navigationBarHeight: 55,
-          navigationBarWidth: double.infinity,
-          navigationBarShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          navigationBarColor: AppColor.primaryColor,
-          showDivider: true,
-          dotHeight: 10,
-          dotWidth: 10,
-          dotShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          // inActiveColor: Colors.grey[200],
-          activeColor: GFColors.SUCCESS,
-          inactiveColor: GFColors.WHITE,
-          dotMargin: EdgeInsets.symmetric(horizontal: 6),
-          showPagination: true,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColor.primaryColor, Colors.yellow],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        currentIndex: initialPage!,
-        pageCount: _pageController.initialPage,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: GFIntroScreen(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          // color: Colors.amber,
+          // borderRadius: BorderRadius.circular(40),
+          // border: Border.all(color: Colors.grey),
+          slides: slides(),
+          pageController: _pageController,
+          introScreenBottomNavigationBar: GFIntroScreenBottomNavigationBar(
+            pageController: _pageController,
+            pageCount: slideList!.length,
+            currentIndex: initialPage!,
+            backButtonText: 'Previous',
+            forwardButton: const Icon(Icons.arrow_forward, color: Colors.white),
+            backButton: const Icon(Icons.arrow_back, color: Colors.white),
+
+            forwardButtonText: 'Next',
+            skipButtonText: 'Skip',
+            doneButtonText: 'Done',
+            onDoneTap: () {
+              context.read<SplashProvider>().initializeApp(context);
+            },
+            onSkipTap: () {
+              context.read<SplashProvider>().initializeApp(context);
+            },
+            doneButton: const Icon(Icons.check, color: Colors.white),
+            navigationBarHeight: 55,
+            navigationBarWidth: double.infinity,
+            navigationBarShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            navigationBarColor: AppColor.primaryColor,
+            showDivider: true,
+            dotHeight: 10,
+            dotWidth: 10,
+            dotShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            // inActiveColor: Colors.grey[200],
+            activeColor: GFColors.SUCCESS,
+            inactiveColor: GFColors.WHITE,
+            dotMargin: EdgeInsets.symmetric(horizontal: 6),
+            showPagination: true,
+          ),
+          currentIndex: initialPage!,
+          pageCount: _pageController.initialPage,
+        ),
       ),
     );
   }
@@ -111,6 +120,9 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Center(
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Lottie.asset(
                 'assets/lottie/business.json',
                 width: MediaQuery.of(context).size.width,
@@ -124,16 +136,16 @@ class _SplashScreenState extends State<SplashScreen> {
               child: RichText(
                 text: TextSpan(
                   text: 'Welcome to ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.poppins(
+                    color: const Color.fromARGB(255, 44, 43, 43),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
                   ),
                   children: <TextSpan>[
                     TextSpan(
                       text:
                           '"Before we dive into the final app flow, I’d like to propose adding a short intro or onboarding screen — something users see only once when they open the app for the first time. The goal is to quickly highlight the app’s main benefits like scanning QR codes for cashback, tracking rewards, and navigating the dashboard. This helps users immediately understand what the app offers without needing a demo or support.',
-                      style: GoogleFonts.aBeeZee(
+                      style: GoogleFonts.poppins(
                         color: const Color.fromARGB(255, 44, 43, 43),
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -164,7 +176,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 text: TextSpan(
                   text:
                       'This app is designed to help you manage your tasks efficiently.',
-                  style: GoogleFonts.aBeeZee(
+                  style: GoogleFonts.poppins(
                     color: const Color.fromARGB(255, 44, 43, 43),
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -173,7 +185,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     TextSpan(
                       text:
                           ' You can easily create, edit, and delete tasks, set reminders, and track your progress.',
-                      style: GoogleFonts.aBeeZee(
+                      style: GoogleFonts.poppins(
                         color: const Color.fromARGB(255, 44, 43, 43),
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -194,7 +206,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Lottie.asset(
                 'assets/lottie/gpsnavigation.json',
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height* 0.5,
+                height: MediaQuery.of(context).size.height * 0.5,
               ),
             ),
           ),
@@ -205,7 +217,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 text: TextSpan(
                   text:
                       'The app also allows you to set priorities for your tasks, so you can focus on what’s most important.',
-                  style: GoogleFonts.aBeeZee(
+                  style: GoogleFonts.poppins(
                     color: const Color.fromARGB(255, 44, 43, 43),
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -214,7 +226,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     TextSpan(
                       text:
                           ' You can also view your tasks in a list or calendar format, making it easy to see what needs to be done.',
-                      style: GoogleFonts.aBeeZee(
+                      style: GoogleFonts.poppins(
                         color: const Color.fromARGB(255, 44, 43, 43),
                         fontSize: 18,
                         fontWeight: FontWeight.w400,

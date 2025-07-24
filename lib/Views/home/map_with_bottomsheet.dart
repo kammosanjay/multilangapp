@@ -169,33 +169,57 @@ class _MyMapLocationState extends State<MyMapLocation>
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(target: myLatlng, zoom: 12),
-            compassEnabled: true,
-
-            // liteModeEnabled: true,
-            markers: {
-              Marker(
-                markerId: MarkerId('1'),
-                infoWindow: InfoWindow(title: address),
-                draggable: true,
-                position: myLatlng,
-
-                onDragEnd: (value) {
-                  setMarker(value);
-                },
+          Positioned(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 320,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
-            },
-            onMapCreated: (controller) {
-              _mapController = controller;
-            },
-            onTap: (argument) {
-              setMarker(argument);
-              _mapController?.animateCamera(CameraUpdate.newLatLng(argument));
-            },
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            trafficEnabled: true,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: myLatlng,
+                  zoom: 12,
+                ),
+                compassEnabled: true,
+
+                // liteModeEnabled: true,
+                markers: {
+                  Marker(
+                    markerId: MarkerId('1'),
+                    infoWindow: InfoWindow(title: address),
+                    draggable: true,
+                    position: myLatlng,
+
+                    onDragEnd: (value) {
+                      setMarker(value);
+                    },
+                  ),
+                },
+                onMapCreated: (controller) {
+                  _mapController = controller;
+                },
+                onTap: (argument) {
+                  setMarker(argument);
+                  _mapController?.animateCamera(
+                    CameraUpdate.newLatLng(argument),
+                  );
+                },
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                trafficEnabled: true,
+              ),
+            ),
           ),
 
           // Bottom sheet
@@ -242,10 +266,12 @@ class _MyMapLocationState extends State<MyMapLocation>
                         children: [
                           Text(
                             "Employee Name",
-                            style: GoogleFonts.openSans(
-                              fontSize: 20,
-                              color: const Color.fromARGB(255, 68, 66, 66),
-                              fontWeight: FontWeight.bold,
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.textColor,
+                              ),
                             ),
                           ),
                           // SizedBox(height: 8),
@@ -260,10 +286,20 @@ class _MyMapLocationState extends State<MyMapLocation>
                                     ),
                                   ),
                                 )
-                              : Text(
-                                  address,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 14),
+                              : SizedBox(
+                                  width: 300,
+                                  child: Text(
+                                    address,
+
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 14,
+                                        color: AppColor.textColor,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                         ],
                       ),
@@ -291,13 +327,14 @@ class _MyMapLocationState extends State<MyMapLocation>
           isTaskCreated: taskCreated,
         ),
       );
-    } else if (taskCreated) {
+    } 
+    else if (taskCreated) {
       return Positioned(
         left: 0,
         right: 0,
         bottom: 70,
         child: NeumorphicCircleButtonCheckIn(
-          isLogin: isLogin,
+          // isLogin: isLogin,
 
           isTaskCreated: taskCreated,
         ),
