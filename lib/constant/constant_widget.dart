@@ -10,6 +10,7 @@ class CustomWidgets {
     required BuildContext context, // Pass BuildContext as a parameter
     String? name,
     String? hint,
+    double? elevation,
     TextEditingController? controller,
     FocusNode? focusNode,
     Widget? icon,
@@ -17,12 +18,13 @@ class CustomWidgets {
     AutovalidateMode? autovalidateMode,
     int? maxLines,
     int? maxLength,
-    Color? color,
+    Color? headingcolor,
+    Color? hintColor,
     double? height,
     TextInputType? keyboardtype,
     Function? onTap,
     var validate,
-    bool isPassword = false,
+    bool isObstructed = false,
     Color? iconColor,
     Widget? suffIcons,
     TextInputAction? action,
@@ -37,7 +39,7 @@ class CustomWidgets {
         Text(
           label,
           style: TextStyle(
-            color: color ?? Colors.white,
+            color: headingcolor ?? Colors.white,
             fontSize: fontSize ?? 16,
             fontWeight: fontwgt ?? FontWeight.w600,
           ),
@@ -49,7 +51,7 @@ class CustomWidgets {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          elevation: 5,
+          elevation: elevation ?? 0,
           child: TextFormField(
             buildCounter:
                 (
@@ -77,21 +79,27 @@ class CustomWidgets {
                 onTap();
               }
             },
-            obscureText: isPassword,
+            obscureText: isObstructed,
             decoration: InputDecoration(
               suffixIcon: suffIcons,
               fillColor: isReadyOnly ? Colors.grey.shade400 : Colors.white,
               filled: true,
+
               prefixIcon: icon,
               prefixIconColor: iconColor,
 
               hintText: hint,
+              hintStyle: TextStyle(
+                color: hintColor ?? Colors.white,
+                fontSize: fontSize ?? 16,
+                fontWeight: fontwgt ?? FontWeight.w600,
+              ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
@@ -202,15 +210,21 @@ class CustomWidgets {
         onPressed!();
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(width!, height!), // Width: 200, Height: 50
-        backgroundColor: btnColor,
+        fixedSize: Size(
+          width ?? MediaQuery.of(context).size.width,
+          height ?? 50,
+        ), // Width: 200, Height: 50
+        backgroundColor:
+            btnColor ?? Colors.blue, // Default color if btnColor is null
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius!), // Set border radius
+          borderRadius: BorderRadius.circular(
+            radius ?? 10,
+          ), // Set border radius
         ), // Button color
       ),
       child: FittedBox(
         child: Text(
-          buttonName!,
+          buttonName ?? 'Button',
           style: GoogleFonts.poppins(
             fontSize: fontSize ?? 12,
             fontWeight: fontWeight ?? FontWeight.w600,
@@ -223,80 +237,4 @@ class CustomWidgets {
 
   ///
   ///
-  static Widget customTextFieldupdate({
-    required BuildContext context,
-    String? errorText,
-    String? name,
-    String? hint,
-    TextEditingController? controller,
-    FocusNode? focusNode,
-    Widget? icon,
-    double? width,
-    AutovalidateMode? autovalidateMode,
-    int? maxLines,
-    int? maxLength,
-    Color? color,
-    double? height,
-    TextInputType? keyboardtype,
-    Function? onTap,
-    bool isPassword = false,
-    Color? iconColor,
-    Widget? suffIcons,
-    TextInputAction? action,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Card(
-          color: Colors.white,
-          margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
-          elevation: 5,
-          child: TextFormField(
-            focusNode: focusNode,
-            keyboardType: keyboardtype,
-            maxLength: maxLength,
-            maxLines: maxLines ?? 1,
-            controller: controller,
-            textAlignVertical: TextAlignVertical.center,
-            textInputAction: action,
-            onTap: () {
-              if (onTap != null) {
-                onTap();
-              }
-            },
-            obscureText: isPassword,
-            decoration: InputDecoration(
-              counterText: '',
-              suffixIcon: suffIcons,
-              prefixIcon: icon,
-              prefixIconColor: iconColor,
-              hintText: hint,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-              ),
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-
-        // 🛑 Custom error message outside card
-        if (errorText != null && errorText.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 4, left: 8),
-            child: Text(
-              errorText,
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-      ],
-    );
-  }
 }

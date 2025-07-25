@@ -7,4 +7,5 @@ class AppColor {
   static const Color textColor = Colors.black45;
   static const Color errorColor = Color(0xFFB00020);
   static const Color buttonColor = Color(0xFF6200EE);
+  static  Color headingColor = Colors.grey.shade900;
 }

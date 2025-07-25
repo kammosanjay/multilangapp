@@ -10,6 +10,7 @@ import 'package:multi_localization_app/Views/home/home_providers.dart';
 import 'package:multi_localization_app/Views/home/home.dart';
 import 'package:multi_localization_app/Views/home/task_page.dart';
 import 'package:multi_localization_app/Views/home/tasklist_page.dart';
+import 'package:multi_localization_app/Views/loginpage/login_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
 import 'package:multi_localization_app/Views/todolist/todo_provider.dart';
@@ -78,13 +79,13 @@ class MyApp extends StatelessWidget {
         locale: context.watch<Language>().selectectLocale,
 
         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
-        // home: HomePage(),
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/home': (context) => const MyHome(),
-          '/task': (context) => TaskPage(),
-          '/CreateTaskList': (context) => CreateTaskList(),
-        },
+        home: LoginPage(),
+        // routes: {
+        //   '/': (context) => const SplashScreen(),
+        //   '/home': (context) => const MyHome(),
+        //   '/task': (context) => TaskPage(),
+        //   '/CreateTaskList': (context) => CreateTaskList(),
+        // },
       ),
     );
   }
