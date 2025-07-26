@@ -34,10 +34,9 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             CircleAvatar(
               radius: 60,
-              backgroundColor: Colors.indigoAccent,
-              // child: SvgPicture.asset(
-              //   'assets/svgImages/logo.svg',
-              //   height: 100,
+              backgroundColor: Colors.transparent,
+              
+              child: Image.asset('assets/images/softgenLogo.png', height: 100),
 
               // ),
             ),
@@ -142,7 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                   context: context,
                   height: 55,
                   buttonName: 'Sign In',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<RouteProvider>().navigateTo('/home', context);
+                  },
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                   btnColor: Colors.indigoAccent,

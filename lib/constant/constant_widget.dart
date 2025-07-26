@@ -20,6 +20,7 @@ class CustomWidgets {
     int? maxLength,
     Color? headingcolor,
     Color? hintColor,
+    Color? fillcolor,
     double? height,
     TextInputType? keyboardtype,
     Function? onTap,
@@ -82,7 +83,9 @@ class CustomWidgets {
             obscureText: isObstructed,
             decoration: InputDecoration(
               suffixIcon: suffIcons,
-              fillColor: isReadyOnly ? Colors.grey.shade400 : Colors.white,
+              fillColor: isReadyOnly
+                  ? Colors.grey.shade400
+                  : fillcolor ?? Colors.white,
               filled: true,
 
               prefixIcon: icon,

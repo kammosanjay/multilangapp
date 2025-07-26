@@ -18,7 +18,6 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController phoneEmaiController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +26,16 @@ class _SignupPageState extends State<SignupPage> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,s
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
               radius: 60,
-              backgroundColor: Colors.indigoAccent.withAlpha(70),
-              child: SvgPicture.asset(
-                'assets/svgImages/logo.svg',
-                height: 100,
-                color: AppColor.textColor,
-              ),
+              backgroundColor: Colors.transparent,
+
+              child: Image.asset('assets/images/softgenLogo.png', height: 100),
+
+              // ),
             ),
 
             SizedBox(height: 40),

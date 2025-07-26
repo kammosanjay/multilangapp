@@ -18,6 +18,8 @@ import 'package:multi_localization_app/Views/language/language.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:unicons/icons/line/unlock.dart';
+import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: depend_on_referenced_packages
@@ -779,7 +781,7 @@ class _MyHomeState extends State<MyHome> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.shade100,
@@ -787,12 +789,6 @@ class _MyHomeState extends State<MyHome> {
                       // spreadRadius: 5,
                       offset: Offset(10, 5),
                     ),
-                    // BoxShadow(
-                    //   color: Colors.grey.shade500,
-                    //   blurRadius: 10,
-                    //   // spreadRadius: 5,
-                    //   offset: Offset(-10, -5),
-                    // ),
                   ],
                 ),
                 child: SvgPicture.asset(

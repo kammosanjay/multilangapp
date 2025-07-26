@@ -62,6 +62,8 @@ dependencies:
   file_picker: 
   image_picker: 
   url_launcher: ^6.3.2
+  table_calendar: ^3.2.0
+  unicons: ^3.0.0
   
   
  

@@ -27,16 +27,14 @@ class _ForgotPageState extends State<ForgotPage> {
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
+             CircleAvatar(
               radius: 60,
-              backgroundColor: Colors.indigoAccent,
-              // child: SvgPicture.asset(
-              //   'assets/svgImages/logo.svg',
-              //   height: 100,
+              backgroundColor: Colors.transparent,
+              
+              child: Image.asset('assets/images/softgenLogo.png', height: 100),
 
               // ),
             ),
-
             SizedBox(height: 40),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

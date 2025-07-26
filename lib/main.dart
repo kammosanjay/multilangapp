@@ -5,12 +5,14 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:multi_localization_app/MyPageRoute/myPage_routes.dart';
 import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
+import 'package:multi_localization_app/Views/Forgot/forgot_page.dart';
 // Ensure that 'myPage_routes.dart' defines a class named 'MyPageRoutes' with a static 'routes' property.
 import 'package:multi_localization_app/Views/home/home_providers.dart';
 import 'package:multi_localization_app/Views/home/home.dart';
 import 'package:multi_localization_app/Views/home/task_page.dart';
 import 'package:multi_localization_app/Views/home/tasklist_page.dart';
 import 'package:multi_localization_app/Views/loginpage/login_page.dart';
+import 'package:multi_localization_app/Views/signUpPage/signup_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
 import 'package:multi_localization_app/Views/todolist/todo_provider.dart';
@@ -79,13 +81,16 @@ class MyApp extends StatelessWidget {
         locale: context.watch<Language>().selectectLocale,
 
         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
-        home: LoginPage(),
-        // routes: {
-        //   '/': (context) => const SplashScreen(),
-        //   '/home': (context) => const MyHome(),
-        //   '/task': (context) => TaskPage(),
-        //   '/CreateTaskList': (context) => CreateTaskList(),
-        // },
+        // home: LoginPage(),
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/home': (context) => const MyHome(),
+          '/task': (context) => TaskPage(),
+          '/CreateTaskList': (context) => CreateTaskList(),
+          '/loginpage': (context) => LoginPage(),
+          '/forgotpage': (context) => ForgotPage(),
+          '/signUpPage': (context) => SignupPage(),
+        },
       ),
     );
   }
