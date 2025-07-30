@@ -1,25 +1,18 @@
 // import 'package:flutter/material.dart';
 import 'dart:io';
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
+import 'package:multi_localization_app/Views/ReportsPage/report_page.dart';
 import 'package:multi_localization_app/Views/home/home_providers.dart';
-
 import 'package:multi_localization_app/Views/home/map_with_bottomsheet.dart';
 import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:multi_localization_app/Views/todolist/todo_list.dart';
-
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/Views/language/language.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:unicons/icons/line/unlock.dart';
-import 'package:unicons/unicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: depend_on_referenced_packages
@@ -38,7 +31,7 @@ class _MyHomeState extends State<MyHome> {
     MyMapLocation(),
     Center(child: Container(color: AppColor.primaryColor)),
     TodoListPage(),
-    Center(child: Container(color: AppColor.buttonColor)),
+    ReportPage(),
     Center(child: Container(color: AppColor.errorColor)),
   ];
 

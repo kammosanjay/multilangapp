@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:multi_localization_app/MyPageRoute/myPage_routes.dart';
 import 'package:multi_localization_app/MyPageRoute/route_provider.dart';
 import 'package:multi_localization_app/Views/Forgot/forgot_page.dart';
+import 'package:multi_localization_app/Views/ReportsPage/report_provider.dart';
 // Ensure that 'myPage_routes.dart' defines a class named 'MyPageRoutes' with a static 'routes' property.
 import 'package:multi_localization_app/Views/home/home_providers.dart';
 import 'package:multi_localization_app/Views/home/home.dart';
@@ -16,6 +18,7 @@ import 'package:multi_localization_app/Views/signUpPage/signup_page.dart';
 import 'package:multi_localization_app/Views/splash/splash_provider.dart';
 import 'package:multi_localization_app/Views/splash/splash_screen.dart';
 import 'package:multi_localization_app/Views/todolist/todo_provider.dart';
+import 'package:multi_localization_app/database/newDatabase.dart';
 import 'package:multi_localization_app/firebase_options.dart';
 import 'package:multi_localization_app/l10n/app_localizations.dart';
 import 'package:multi_localization_app/Views/language/language.dart';
@@ -25,7 +28,9 @@ import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
@@ -51,6 +56,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
         ChangeNotifierProvider<RouteProvider>(create: (_) => RouteProvider()),
         ChangeNotifierProvider<TodoProvider>(create: (_) => TodoProvider()),
+        ChangeNotifierProvider<ReportProvider>(create: (_) => ReportProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

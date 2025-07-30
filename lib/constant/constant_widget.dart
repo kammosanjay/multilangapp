@@ -197,7 +197,7 @@ class CustomWidgets {
 
   ///Button Widget
 
-  static Widget customButton({
+  static Widget   customButton({
     required BuildContext context, // Pass BuildContext as a parameter
     String? buttonName,
     Function? onPressed,
@@ -233,6 +233,7 @@ class CustomWidgets {
             fontWeight: fontWeight ?? FontWeight.w600,
             color: Colors.white, // Text color
           ),
+          
         ),
       ),
     );

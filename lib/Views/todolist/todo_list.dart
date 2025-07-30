@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:multi_localization_app/Views/Modals/task_modal.dart';
 import 'package:multi_localization_app/Views/todolist/todo_provider.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/constant/constant_widget.dart';
@@ -18,10 +19,14 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  final TextEditingController _controller = TextEditingController();
-
+  TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   DateTime? _selectedDay = DateTime.now();
+  String? selectedOption = 'Low';
+  bool ischecked = false;
 
+  ///
+  ///
   Widget _buildDayCell(DateTime day, Color bgColor, Color textColor) {
     return Container(
       margin: const EdgeInsets.all(6),
@@ -54,157 +59,185 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  void _showBottomSheet(BuildContext context) {
+  showBottomSheet(BuildContext context, {TaskModel? taskToEdit}) {
+    // Set initial values only once
+    if (taskToEdit != null) {
+      _controller.text = taskToEdit.title;
+      selectedOption = taskToEdit.priority;
+      _selectedDay = taskToEdit.date;
+    } else {
+      _controller.clear();
+      selectedOption = null;
+      _selectedDay = DateTime.now();
+    }
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        String? selectedOption = 'Low';
-        DateTime? _selectedDay = DateTime.now(); // local to bottom sheet
-
+        Future.delayed(Duration(milliseconds: 200), () {
+          // ignore: use_build_context_synchronously
+          FocusScope.of(context).requestFocus(_focusNode);
+        });
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
-            return Container(
-              height: 500,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TableCalendar(
-                    firstDay: DateTime(2024, 1, 1),
-                    lastDay: DateTime(2028, 12, 31),
-                    focusedDay: _selectedDay!,
-                    daysOfWeekVisible: false,
-                    calendarFormat: CalendarFormat.week,
-                    availableCalendarFormats: const {
-                      CalendarFormat.week: 'Week',
-                    },
-                    rowHeight: 60,
-                    selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setModalState(() {
-                        _selectedDay = selectedDay;
-                      });
-                    },
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(day, Colors.white, Colors.black);
-                      },
-                      todayBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(
-                          day,
-                          Colors.orange.shade100,
-                          Colors.orange,
-                        );
-                      },
-                      selectedBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(
-                          day,
-                          Colors.blue.shade100,
-                          Colors.blueAccent,
-                        );
-                      },
+            return Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
                     ),
                   ),
-                  const SizedBox(height: 1),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: CustomWidgets.customTextFeild(
-                      context: context,
-                      maxLines: 5,
-                      controller: _controller,
-                      hint: 'Add a new task',
-                      fillcolor: Colors.grey.shade200,
-                      hintColor: AppColor.textColor,
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                      },
-                      width: MediaQuery.of(context).size.width,
-                      height: 80,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Task Priority',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: AppColor.headingColor,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Radio<String>(
-                              value: 'Low',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setModalState(() {
-                                  selectedOption = value;
-                                });
-                              },
-                            ),
-                            Text(
-                              'Low',
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: AppColor.headingColor,
-                              ),
-                            ),
-                          ],
+                      TableCalendar(
+                        firstDay: DateTime(2024, 1, 1),
+                        lastDay: DateTime(2028, 12, 31),
+                        focusedDay: _selectedDay!,
+                        daysOfWeekVisible: false,
+                        calendarFormat: CalendarFormat.week,
+                        availableCalendarFormats: const {
+                          CalendarFormat.week: 'Week',
+                        },
+                        rowHeight: 60,
+                        selectedDayPredicate: (day) =>
+                            isSameDay(day, _selectedDay),
+                        onDaySelected: (selectedDay, focusedDay) {
+                          setModalState(() {
+                            _selectedDay = selectedDay;
+                          });
+                        },
+                        calendarBuilders: CalendarBuilders(
+                          defaultBuilder: (context, day, focusedDay) {
+                            return _buildDayCell(
+                              day,
+                              Colors.white,
+                              Colors.black,
+                            );
+                          },
+                          todayBuilder: (context, day, focusedDay) {
+                            return _buildDayCell(
+                              day,
+                              Colors.orange.shade100,
+                              Colors.orange,
+                            );
+                          },
+                          selectedBuilder: (context, day, focusedDay) {
+                            return _buildDayCell(
+                              day,
+                              Colors.blue.shade100,
+                              Colors.blueAccent,
+                            );
+                          },
                         ),
                       ),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Radio<String>(
-                              value: 'Medium',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setModalState(() {
-                                  selectedOption = value;
-                                });
-                              },
-                            ),
-                            Text(
-                              'Medium',
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: AppColor.headingColor,
-                              ),
-                            ),
-                          ],
+                      const SizedBox(height: 1),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: CustomWidgets.customTextFeild(
+                          context: context,
+                          maxLines: 5,
+                          focusNode: _focusNode,
+                          controller: _controller,
+                          hint: 'Add a new task',
+                          fillcolor: Colors.grey.shade200,
+                          hintColor: AppColor.textColor,
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                          },
+                          width: MediaQuery.of(context).size.width,
+                          height: 80,
                         ),
                       ),
-                      Expanded(
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          'Task Priority',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: AppColor.headingColor,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildRadio(setModalState, 'Low'),
+                          _buildRadio(setModalState, 'Medium'),
+                          _buildRadio(setModalState, 'High'),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0,
+                          vertical: 15,
+                        ),
                         child: Row(
                           children: [
-                            Radio<String>(
-                              value: 'High',
-                              groupValue: selectedOption,
-                              onChanged: (value) {
-                                setModalState(() {
-                                  selectedOption = value;
-                                });
-                              },
-                            ),
-                            Text(
-                              'High',
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: AppColor.headingColor,
+                            if (taskToEdit == null)
+                              Flexible(
+                                child: Consumer<TodoProvider>(
+                                  builder: (context, todoProvider, child) {
+                                    return CustomWidgets.customButton(
+                                      context: context,
+                                      onPressed: () {
+                                        todoProvider.clearTasks();
+                                      },
+                                      buttonName: 'Clear',
+                                      fontSize: 14,
+                                      btnColor: AppColor.primaryColor,
+                                      radius: 5,
+                                    );
+                                  },
+                                ),
+                              ),
+
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: Consumer<TodoProvider>(
+                                builder: (context, todoProvider, child) {
+                                  return CustomWidgets.customButton(
+                                    context: context,
+                                    onPressed: () {
+                                      if (_controller.text.isEmpty ||
+                                          selectedOption == null)
+                                        return;
+
+                                      final task = TaskModel(
+                                        title: _controller.text,
+                                        date: _selectedDay!,
+                                        priority: selectedOption!,
+                                        index:
+                                            taskToEdit?.index ??
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch,
+                                      );
+
+                                      if (taskToEdit != null) {
+                                        todoProvider.updateTask(task);
+                                      } else {
+                                        todoProvider.addTask(task);
+                                      }
+
+                                      _controller.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    buttonName: taskToEdit != null
+                                        ? "Update"
+                                        : 'Add',
+                                    fontSize: 14,
+                                    btnColor: AppColor.primaryColor,
+                                    radius: 5,
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -212,57 +245,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Consumer<TodoProvider>(
-                              builder: (context, todoProvider, child) {
-                                return CustomWidgets.customButton(
-                                  context: context,
-                                  onPressed: () {
-                                    todoProvider.clearTasks();
-                                  },
-                                  buttonName: 'Clear',
-                                  fontSize: 14,
-                                  btnColor: AppColor.primaryColor,
-                                  radius: 5,
-                                  width: 80,
-                                  height: 40,
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Consumer<TodoProvider>(
-                              builder: (context, todoProvider, child) {
-                                return CustomWidgets.customButton(
-                                  context: context,
-                                  onPressed: () {
-                                    if (_controller.text.isNotEmpty) {
-                                      todoProvider.addTask(_controller.text);
-                                      _controller.clear();
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                  buttonName: 'Add',
-                                  fontSize: 14,
-                                  btnColor: AppColor.primaryColor,
-                                  radius: 5,
-                                  width: 80,
-                                  height: 40,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },
@@ -271,239 +254,41 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  // void bottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-  //     ),
-  //     builder: (context) {
-  //       String? selectedOption = 'Low'; // Initial priority
-  //       DateTime? _selectedDay = DateTime.now();
-  //       return StatefulBuilder(
-  //         builder: (context, setModalState) {
-  //           return Container(
-  //             height: 500,
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.only(
-  //                 topLeft: Radius.circular(16),
-  //                 topRight: Radius.circular(16),
-  //               ),
-  //             ),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 TableCalendar(
-  //                   firstDay: DateTime(2024, 1, 1),
-  //                   lastDay: DateTime(2028, 12, 31),
-  //                   focusedDay: _selectedDay!,
-  //                   daysOfWeekVisible: false,
-  //                   calendarFormat: CalendarFormat.week,
-  //                   availableCalendarFormats: const {
-  //                     CalendarFormat.week: 'Week',
-  //                   },
-  //                   rowHeight: 60,
-  //                   selectedDayPredicate: (day) {
-  //                     return isSameDay(day, _selectedDay);
-  //                   },
-  //                   onDaySelected: (selectedDay, focusedDay) {
-  //                     setState(() {
-  //                       _selectedDay = selectedDay;
-  //                     });
-  //                   },
-  //                   calendarBuilders: CalendarBuilders(
-  //                     defaultBuilder: (context, day, focusedDay) {
-  //                       return _buildDayCell(day, Colors.white, Colors.black);
-  //                     },
-  //                     todayBuilder: (context, day, focusedDay) {
-  //                       return _buildDayCell(
-  //                         day,
-  //                         Colors.orange.shade100,
-  //                         Colors.orange,
-  //                       );
-  //                     },
-  //                     selectedBuilder: (context, day, focusedDay) {
-  //                       return _buildDayCell(
-  //                         day,
-  //                         Colors.blue.shade100,
-  //                         Colors.blueAccent,
-  //                       );
-  //                     },
-  //                   ),
-  //                 ),
-
-  //                 const SizedBox(height: 1),
-  //                 Padding(
-  //                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-  //                   child: CustomWidgets.customTextFeild(
-  //                     context: context,
-  //                     maxLines: 5,
-  //                     controller: _controller,
-  //                     hint: 'Add a new task',
-  //                     fillcolor: Colors.grey.shade200,
-  //                     hintColor: AppColor.textColor,
-  //                     onTap: () {
-  //                       FocusScope.of(context).unfocus();
-  //                     },
-  //                     width: MediaQuery.of(context).size.width,
-  //                     height: 80,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 10),
-  //                 Padding(
-  //                   padding: const EdgeInsets.only(left: 10.0),
-  //                   child: Text(
-  //                     'Task Priority',
-  //                     style: GoogleFonts.poppins(
-  //                       fontSize: 14,
-  //                       color: AppColor.headingColor,
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 5),
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //                     Expanded(
-  //                       child: Row(
-  //                         children: [
-  //                           Radio<String>(
-  //                             value: 'Low',
-  //                             groupValue: selectedOption,
-  //                             onChanged: (value) {
-  //                               setModalState(() {
-  //                                 selectedOption = value;
-  //                               });
-  //                             },
-  //                           ),
-  //                           Text(
-  //                             'Low',
-  //                             style: GoogleFonts.poppins(
-  //                               fontSize: 12,
-  //                               color: AppColor.headingColor,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                     Expanded(
-  //                       child: Row(
-  //                         children: [
-  //                           Radio<String>(
-  //                             value: 'Medium',
-  //                             groupValue: selectedOption,
-  //                             onChanged: (value) {
-  //                               setModalState(() {
-  //                                 selectedOption = value;
-  //                               });
-  //                             },
-  //                           ),
-  //                           Text(
-  //                             'Medium',
-  //                             style: GoogleFonts.poppins(
-  //                               fontSize: 12,
-  //                               color: AppColor.headingColor,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                     Expanded(
-  //                       child: Row(
-  //                         children: [
-  //                           Radio<String>(
-  //                             value: 'High',
-  //                             groupValue: selectedOption,
-  //                             onChanged: (value) {
-  //                               setModalState(() {
-  //                                 selectedOption = value;
-  //                               });
-  //                             },
-  //                           ),
-  //                           Text(
-  //                             'High',
-  //                             style: GoogleFonts.poppins(
-  //                               fontSize: 12,
-  //                               color: AppColor.headingColor,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Expanded(
-  //                   child: Padding(
-  //                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
-  //                     child: Row(
-  //                       children: [
-  //                         Expanded(
-  //                           child: Consumer<TodoProvider>(
-  //                             builder: (context, todoProvider, child) {
-  //                               return CustomWidgets.customButton(
-  //                                 context: context,
-  //                                 onPressed: () {
-  //                                   todoProvider.clearTasks();
-  //                                 },
-  //                                 buttonName: 'Clear',
-  //                                 fontSize: 14,
-  //                                 btnColor: AppColor.primaryColor,
-  //                                 radius: 5,
-  //                                 width: 80,
-  //                                 height: 40,
-  //                               );
-  //                             },
-  //                           ),
-  //                         ),
-  //                         const SizedBox(width: 10),
-  //                         Expanded(
-  //                           child: Consumer<TodoProvider>(
-  //                             builder: (context, todoProvider, child) {
-  //                               return CustomWidgets.customButton(
-  //                                 context: context,
-  //                                 onPressed: () {
-  //                                   if (_controller.text.isNotEmpty) {
-  //                                     todoProvider.addTask(_controller.text);
-  //                                     _controller.clear();
-  //                                   }
-  //                                   Navigator.pop(context);
-  //                                 },
-  //                                 buttonName: 'Add',
-  //                                 fontSize: 14,
-  //                                 btnColor: AppColor.primaryColor,
-  //                                 radius: 5,
-  //                                 width: 80,
-  //                                 height: 40,
-  //                               );
-  //                             },
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+  Widget _buildRadio(StateSetter setModalState, String value) {
+    return Expanded(
+      child: Row(
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: selectedOption,
+            onChanged: (val) {
+              setModalState(() {
+                selectedOption = val;
+              });
+            },
+          ),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: 12,
+              color: AppColor.headingColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final tasklist = context.watch<TodoProvider>().tasks;
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      // onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         // backgroundColor: Colors.grey.shade100,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // bottomSheet(context);
-            _showBottomSheet(context);
+            showBottomSheet(context);
           },
           child: Icon(Icons.add),
         ),
@@ -538,90 +323,272 @@ class _TodoListPageState extends State<TodoListPage> {
 
                           itemBuilder: (context, index) {
                             final task = todoProvider.tasks[index];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Card(
-                                  color: Colors.white,
-                                  shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 4,
-                                  ),
-                                  child: SizedBox(
-                                    height: 100,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Column(
+                                spacing: 10,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(4),
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+                                    // elevation: 10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      color: task.priority == "Low"
+                                          ? Colors.amber.shade50
+                                          : task.priority == "Medium"
+                                          ? Colors.green.shade50
+                                          : Colors.red.shade50,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 10,
+                                          offset: Offset(3, 3),
+                                        ),
+                                      ],
+                                    ),
 
-                                      children: [
-                                        Expanded(
-                                          child: ListTile(
-                                            leading: Checkbox(
-                                              value: task.startsWith('✓ '),
-                                              onChanged: (value) {
-                                                todoProvider.toggleTask(index);
-                                              },
-                                            ),
-                                            title: Text(
-                                              task,
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
-                                                color: AppColor.headingColor,
+                                    child: SizedBox(
+                                      height: 80,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: 0,
+                                        children: [
+                                          Expanded(
+                                            child: ListTile(
+                                              contentPadding: EdgeInsets.all(0),
+                                              leading: Checkbox(
+                                                value: task.ischecked,
+                                                onChanged: (value) {
+                                                  todoProvider.toggleTask(
+                                                    index,
+                                                  );
+                                                },
                                               ),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
+                                              title: SizedBox(
+                                                height: 70,
+                                                child: ListView(
+                                                  children: [
+                                                    Text(
+                                                      task.title,
+                                                      style: GoogleFonts.poppins(
+                                                        decoration:
+                                                            task.ischecked
+                                                            ? TextDecoration
+                                                                  .lineThrough
+                                                            : TextDecoration
+                                                                  .none,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: AppColor
+                                                            .headingColor,
+                                                      ),
+                                                      // maxLines: 3,
+                                                      // overflow:
+                                                      // TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Expanded(
-                                              child: IconButton(
-                                                icon: const Icon(
-                                                  UniconsLine.edit,
-                                                ),
-                                                onPressed: () => "",
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: IconButton(
-                                                icon: const Icon(
-                                                  UniconsLine.trash,
-                                                  color: Color.fromARGB(
-                                                    255,
-                                                    240,
-                                                    169,
-                                                    164,
+                                          Column(
+                                            children: [
+                                              Expanded(
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    UniconsLine.edit,
+                                                    size: 20,
                                                   ),
+                                                  onPressed: () {
+                                                    print(
+                                                      "helo==>" + task.title,
+                                                    );
+                                                    showBottomSheet(
+                                                      context,
+                                                      taskToEdit: TaskModel(
+                                                        title: task.title,
+                                                        date: task.date,
+                                                        priority: task.priority,
+                                                        index: task.index,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
-                                                onPressed: () => todoProvider
-                                                    .removeTask(index),
                                               ),
+                                              Expanded(
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    UniconsLine.trash,
+
+                                                    color: Color.fromARGB(
+                                                      255,
+                                                      240,
+                                                      169,
+                                                      164,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                            "Are You Sure ? You want to delete this task.",
+                                                            style: GoogleFonts.poppins(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              color: AppColor
+                                                                  .headingColor,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            Row(
+                                                              spacing: 10,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    child: CustomWidgets.customButton(
+                                                                      context:
+                                                                          context,
+                                                                      width:
+                                                                          100,
+                                                                      height:
+                                                                          40,
+                                                                      btnColor:
+                                                                          AppColor
+                                                                              .primaryColor,
+                                                                      buttonName:
+                                                                          "Yes",
+                                                                      onPressed: () {
+                                                                        todoProvider.removeTask(
+                                                                          index,
+                                                                        );
+                                                                        Navigator.pop(
+                                                                          context,
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child: Container(
+                                                                    child: CustomWidgets.customButton(
+                                                                      context:
+                                                                          context,
+                                                                      width:
+                                                                          100,
+                                                                      height:
+                                                                          40,
+
+                                                                      buttonName:
+                                                                          "No",
+                                                                      btnColor:
+                                                                          Colors
+                                                                              .red,
+                                                                      onPressed: () {
+                                                                        Navigator.pop(
+                                                                          context,
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      spacing: 10,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Date : ', // First part
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColor.headingColor,
                                             ),
-                                          ],
+                                            children: [
+                                              TextSpan(
+                                                text: task.date
+                                                    .toIso8601String()
+                                                    .split('T')
+                                                    .first,
+
+                                                // text: _selectedDay!
+                                                //     .toIso8601String()
+                                                //     .split('T')
+                                                //     .first,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: task.priority == "Low"
+                                                      ? Colors.amber
+                                                      : task.priority ==
+                                                            "Medium"
+                                                      ? Colors.green
+                                                      : AppColor.errorColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Priority : ', // First part
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColor.headingColor,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: task.priority,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: task.priority == "Low"
+                                                      ? Colors.amber
+                                                      : task.priority ==
+                                                            "Medium"
+                                                      ? Colors.green
+                                                      : AppColor.errorColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0,
-                                  ),
-                                  child: Text(
-                                    "data",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 10,
-                                      color: AppColor.headingColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             );
                           },
                         ),
