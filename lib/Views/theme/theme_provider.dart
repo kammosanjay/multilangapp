@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 
@@ -7,13 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   late Color _primaryColor;
+  ThemeMode _themeMode = ThemeMode.system;
 
   ThemeProvider() {
-    _primaryColor = AppColor.primaryColor; // default
+    _primaryColor = AppColor.primaryColor;
     loadTheme();
   }
 
   Color get primaryColor => _primaryColor;
+  ThemeMode get themeMode => _themeMode;
+
   static const List<Color> colors = [
     Color(0xFFE3BA72),
     Color(0xFF028900),
@@ -51,7 +54,7 @@ class ThemeProvider extends ChangeNotifier {
     Color(0xFF6E5132),
     Color(0xFFD4914C),
   ];
-  // Define the theme data based on the primary color
+
   ThemeData get themeData => ThemeData(
     primaryColor: _primaryColor,
     colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
@@ -61,23 +64,30 @@ class ThemeProvider extends ChangeNotifier {
     textTheme: TextTheme(
       bodyMedium: GoogleFonts.poppins(
         color: Colors.black,
-
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
     ),
   );
-  // Define dark and light themes based on the primary color
+
   ThemeData get darkTheme => ThemeData(
     brightness: Brightness.dark,
-    primaryColor: _primaryColor,
+    primaryColor: Colors.black,
     colorScheme: ColorScheme.fromSeed(
       seedColor: _primaryColor,
       brightness: Brightness.dark,
     ),
     appBarTheme: AppBarTheme(backgroundColor: _primaryColor, centerTitle: true),
     scaffoldBackgroundColor: Colors.black,
+    textTheme: TextTheme(
+      bodyMedium: GoogleFonts.poppins(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
   );
+
   ThemeData get lightTheme => ThemeData(
     brightness: Brightness.light,
     primaryColor: _primaryColor,
@@ -87,30 +97,60 @@ class ThemeProvider extends ChangeNotifier {
     ),
     appBarTheme: AppBarTheme(backgroundColor: _primaryColor, centerTitle: true),
     scaffoldBackgroundColor: Colors.white,
+    textTheme: TextTheme(
+      bodyMedium: GoogleFonts.poppins(
+        color: Colors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
   );
-  ThemeMode get themeMode {
-    return _primaryColor.computeLuminance() > 0.5
-        ? ThemeMode.light
-        : ThemeMode.dark;
-  }
 
-  void changeColor(Color color) {
-    _primaryColor = color;
-    saveTheme(color);
+  /// Update theme mode (light/dark/system)
+  void setThemeMode(ThemeMode mode) {
+    _themeMode = mode;
+    saveThemeMode(mode);
     notifyListeners();
   }
 
-  Future<void> saveTheme(Color color) async {
+  /// Change primary color
+  void changeColor(Color color) {
+    _primaryColor = color;
+    saveThemeColor(color);
+    notifyListeners();
+  }
+
+  /// Save selected color
+  Future<void> saveThemeColor(Color color) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('theme_color', color.value);
   }
 
+  /// Save selected theme mode
+  Future<void> saveThemeMode(ThemeMode mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('theme_mode', mode.toString().split('.').last);
+  }
+
+  /// Load saved theme and color
   Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // Load color
     int? colorValue = prefs.getInt('theme_color');
     if (colorValue != null) {
       _primaryColor = Color(colorValue);
-      notifyListeners();
     }
+
+    // Load theme mode
+    String? modeString = prefs.getString('theme_mode');
+    if (modeString != null) {
+      _themeMode = ThemeMode.values.firstWhere(
+        (e) => e.toString().split('.').last == modeString,
+        orElse: () => ThemeMode.system,
+      );
+    }
+
+    notifyListeners();
   }
 }

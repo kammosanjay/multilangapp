@@ -166,7 +166,7 @@ class _MyHomeState extends State<MyHome> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-              backgroundColor: AppColor.primaryColor,
+              backgroundColor: themeProvider.primaryColor,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
@@ -388,7 +388,7 @@ class _MyHomeState extends State<MyHome> {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                ThemeMode currentMode = themeProvider.themeMode;
+                                final currentMode = themeProvider.themeMode;
 
                                 return AlertDialog(
                                   title: Text(
@@ -399,7 +399,7 @@ class _MyHomeState extends State<MyHome> {
                                         .bodyMedium!
                                         .copyWith(color: AppColor.textColor),
                                   ),
-                                  content: Container(
+                                  content: SizedBox(
                                     height: 200,
                                     width: 200,
                                     child: Column(
@@ -419,8 +419,9 @@ class _MyHomeState extends State<MyHome> {
                                           value: ThemeMode.light,
                                           groupValue: currentMode,
                                           onChanged: (value) {
+                                            print("selectedTheme is :$value");
                                             if (value != null) {
-                                              themeProvider.lightTheme;
+                                              themeProvider.setThemeMode(value);
                                               Navigator.pop(context);
                                             }
                                           },
@@ -440,31 +441,33 @@ class _MyHomeState extends State<MyHome> {
                                           groupValue: currentMode,
                                           onChanged: (value) {
                                             if (value != null) {
-                                              themeProvider.darkTheme;
+                                              print("selectedTheme is :$value");
+                                              themeProvider.setThemeMode(value);
                                               Navigator.pop(context);
                                             }
                                           },
                                         ),
-                                        RadioListTile<ThemeMode>(
-                                          title: Text(
-                                            'System Default',
-                                            style: themeProvider
-                                                .themeData
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: AppColor.textColor,
-                                                ),
-                                          ),
-                                          value: ThemeMode.system,
-                                          groupValue: currentMode,
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              themeProvider.themeMode;
-                                              Navigator.pop(context);
-                                            }
-                                          },
-                                        ),
+                                        // RadioListTile<ThemeMode>(
+                                        //   title: Text(
+                                        //     'System Default',
+                                        //     style: themeProvider
+                                        //         .themeData
+                                        //         .textTheme
+                                        //         .bodyMedium!
+                                        //         .copyWith(
+                                        //           color: AppColor.textColor,
+                                        //         ),
+                                        //   ),
+                                        //   value: ThemeMode.system,
+                                        //   groupValue: currentMode,
+                                        //   onChanged: (value) {
+                                        //     print("selectedTheme is :$value");
+                                        //     if (value != null) {
+                                        //       themeProvider.setThemeMode(value);
+                                        //       Navigator.pop(context);
+                                        //     }
+                                        //   },
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -679,6 +682,7 @@ class _MyHomeState extends State<MyHome> {
         // ),
         // ),
       ),
+
       appBar: AppBar(
         // backgroundColor: AppColor.primaryColor,
         title: Consumer<ThemeProvider>(

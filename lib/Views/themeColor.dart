@@ -29,7 +29,7 @@ class ThemePage extends StatelessWidget {
           children: colors
               .map(
                 (color) => GestureDetector(
-                  onTap: () => themeProvider.changeColor(color),
+                  // onTap: () => themeProvider.changeColor(color),
                   child: Container(
                     width: 50,
                     height: 50,

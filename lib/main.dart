@@ -27,30 +27,88 @@ import 'package:multi_localization_app/Views/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await GetStorage.init();
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+//   runApp(
+//     ChangeNotifierProvider(
+//       create: (context) => Language(),
+//       child: ChangeNotifierProvider(
+//         create: (context) => ThemeProvider(),
+//         child: MyApp(),
+//       ),
+//     ),
+//   );
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+//         ChangeNotifierProvider<SplashProvider>(create: (_) => SplashProvider()),
+//         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
+//         ChangeNotifierProvider<RouteProvider>(create: (_) => RouteProvider()),
+//         ChangeNotifierProvider<TodoProvider>(create: (_) => TodoProvider()),
+//         ChangeNotifierProvider<ReportProvider>(create: (_) => ReportProvider()),
+//       ],
+//       child: MaterialApp(
+//         title: 'Flutter Demo',
+
+//         supportedLocales: [
+//           Locale('en'),
+//           Locale('hi'),
+//           Locale('es'),
+//           Locale('bn'),
+//           Locale('ta'),
+//           Locale('te'),
+//           Locale('mr'),
+//           Locale('kn'),
+//           Locale('as'),
+//           Locale('ur'),
+//         ],
+//         debugShowCheckedModeBanner: false,
+//         localizationsDelegates: [
+//           AppLocalizations.delegate,
+//           GlobalMaterialLocalizations.delegate,
+//           GlobalWidgetsLocalizations.delegate,
+//           GlobalCupertinoLocalizations.delegate,
+//         ],
+//         theme: Provider.of<ThemeProvider>(context).lightTheme,
+//         themeMode: Provider.of<ThemeProvider>(context).themeMode,
+//         darkTheme: Provider.of<ThemeProvider>(context).darkTheme,
+
+//         locale: context.watch<Language>().selectectLocale,
+
+//         // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
+//         // home: LoginPage(),
+//         routes: {
+//           '/': (context) => const SplashScreen(),
+//           '/home': (context) => const MyHome(),
+//           '/task': (context) => TaskPage(),
+//           '/CreateTaskList': (context) => CreateTaskList(),
+//           '/loginpage': (context) => LoginPage(),
+//           '/forgotpage': (context) => ForgotPage(),
+//           '/signUpPage': (context) => SignupPage(),
+//         },
+//       ),
+//     );
+//   }
+// }
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => Language(),
-      child: ChangeNotifierProvider(
-        create: (context) => ThemeProvider(),
-        child: MyApp(),
-      ),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+    MultiProvider(
       providers: [
+        ChangeNotifierProvider<Language>(create: (_) => Language()),
         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
         ChangeNotifierProvider<SplashProvider>(create: (_) => SplashProvider()),
         ChangeNotifierProvider<HomeProviders>(create: (_) => HomeProviders()),
@@ -58,46 +116,53 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TodoProvider>(create: (_) => TodoProvider()),
         ChangeNotifierProvider<ReportProvider>(create: (_) => ReportProvider()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
+      child: const MyApp(),
+    ),
+  );
+}
 
-        supportedLocales: [
-          Locale('en'),
-          Locale('hi'),
-          Locale('es'),
-          Locale('bn'),
-          Locale('ta'),
-          Locale('te'),
-          Locale('mr'),
-          Locale('kn'),
-          Locale('as'),
-          Locale('ur'),
-        ],
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        theme: ThemeProvider().themeData,
-        themeMode: ThemeProvider().themeMode,
-        darkTheme: ThemeProvider().darkTheme,
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-        locale: context.watch<Language>().selectectLocale,
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
+    final langProvider = Provider.of<Language>(context, listen: true);
 
-        // If 'MyPageRoutes' is not defined, replace with the correct class or variable that holds your route definitions.
-        // home: LoginPage(),
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/home': (context) => const MyHome(),
-          '/task': (context) => TaskPage(),
-          '/CreateTaskList': (context) => CreateTaskList(),
-          '/loginpage': (context) => LoginPage(),
-          '/forgotpage': (context) => ForgotPage(),
-          '/signUpPage': (context) => SignupPage(),
-        },
-      ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('hi'),
+        Locale('es'),
+        Locale('bn'),
+        Locale('ta'),
+        Locale('te'),
+        Locale('mr'),
+        Locale('kn'),
+        Locale('as'),
+        Locale('ur'),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: themeProvider.lightTheme,
+      darkTheme: themeProvider.darkTheme,
+      themeMode: themeProvider.themeMode,
+      locale: langProvider.selectectLocale,
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/home': (context) => const MyHome(),
+        '/task': (context) => TaskPage(),
+        '/CreateTaskList': (context) => CreateTaskList(),
+        '/loginpage': (context) => LoginPage(),
+        '/forgotpage': (context) => ForgotPage(),
+        '/signUpPage': (context) => SignupPage(),
+      },
     );
   }
 }

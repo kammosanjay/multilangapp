@@ -9,3 +9,6 @@ class AppColor {
   static const Color buttonColor = Color(0xFF6200EE);
   static  Color headingColor = Colors.grey.shade900;
 }
+
+
+
