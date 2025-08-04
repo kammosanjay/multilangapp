@@ -19,7 +19,7 @@ class _ForgotPageState extends State<ForgotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      // backgroundColor: Colors.grey.shade100,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -47,7 +47,7 @@ class _ForgotPageState extends State<ForgotPage> {
                       'EATA',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: AppColor.textColor,
+                        color: AppColor.textColor(context),
                       ),
                     ),
                   ],
@@ -57,7 +57,7 @@ class _ForgotPageState extends State<ForgotPage> {
                   'Welcome User !',
                   style: GoogleFonts.poppins(
                     fontSize: 22,
-                    color: AppColor.headingColor,
+                    color: AppColor.textColor(context),
                   ),
                 ),
                 SizedBox(height: 5),
@@ -65,7 +65,7 @@ class _ForgotPageState extends State<ForgotPage> {
                   'Employee, e-Attendance & Tracking',
                   style: GoogleFonts.poppins(
                     fontSize: 12,
-                    color: AppColor.textColor,
+                    color: AppColor.textColor(context),
                   ),
                 ),
                 SizedBox(height: 40),
@@ -73,10 +73,10 @@ class _ForgotPageState extends State<ForgotPage> {
                   context: context,
                   label: 'New Password',
                   fontwgt: FontWeight.normal,
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.textColor(context),
                   hint: 'New Password',
                   // isObstructed: isShown,
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: oldPassController,
                   keyboardtype: TextInputType.emailAddress,
                   icon: Icon(Icons.email),
@@ -92,18 +92,18 @@ class _ForgotPageState extends State<ForgotPage> {
                       });
                     },
                     child: isShown
-                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor)
+                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor(context))
                         : Icon(
                             Icons.remove_red_eye_outlined,
-                            color: AppColor.textColor,
+                            color: AppColor.textColor(context),
                           ),
                   ),
 
                   fontwgt: FontWeight.normal,
 
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.textColor(context),
                   hint: 'Confirm Password',
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: newPassController,
                   isObstructed: isShown,
                   icon: Icon(Icons.lock),
@@ -134,12 +134,12 @@ class _ForgotPageState extends State<ForgotPage> {
                   child: RichText(
                     text: TextSpan(
                       text: "If password remember ! ",
-                      style: TextStyle(color: AppColor.textColor, fontSize: 16),
+                      style: TextStyle(color: AppColor.textColor(context), fontSize: 16),
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Sign In',
                           style: TextStyle(
-                            color: AppColor.headingColor,
+                            color: AppColor.textColor(context),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

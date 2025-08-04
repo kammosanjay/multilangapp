@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:multi_localization_app/constant/appColor.dart';
 
 class CustomWidgets {
   ///TextFeild Widget
@@ -231,7 +232,7 @@ class CustomWidgets {
           style: GoogleFonts.poppins(
             fontSize: fontSize ?? 12,
             fontWeight: fontWeight ?? FontWeight.w600,
-            color: Colors.white, // Text color
+            color: AppColor.primaryColor(context), // Text color
           ),
           
         ),

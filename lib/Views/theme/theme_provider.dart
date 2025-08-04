@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:multi_localization_app/constant/appColor.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +9,9 @@ class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
 
   ThemeProvider() {
-    _primaryColor = AppColor.primaryColor;
+    // _primaryColor = const Color(0xFF88D0F1);
+    _primaryColor = Color(0xFFeffdff);
+
     loadTheme();
   }
 
@@ -55,54 +56,105 @@ class ThemeProvider extends ChangeNotifier {
     Color(0xFFD4914C),
   ];
 
-  ThemeData get themeData => ThemeData(
-    primaryColor: _primaryColor,
-    colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
-    useMaterial3: true,
-    appBarTheme: AppBarTheme(backgroundColor: _primaryColor),
-    scaffoldBackgroundColor: Colors.white,
-    textTheme: TextTheme(
-      bodyMedium: GoogleFonts.poppins(
-        color: Colors.black,
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  );
+  // ThemeData get themeData => ThemeData(
+  //   primaryColor: _primaryColor,
+  //   colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
+  //   useMaterial3: true,
+  //   appBarTheme: AppBarTheme(backgroundColor: _primaryColor),
+  //   scaffoldBackgroundColor: Colors.white,
+  //   textTheme: TextTheme(
+  //     bodyMedium: GoogleFonts.poppins(
+  //       color: Colors.black,
+  //       fontSize: 16,
+  //       fontWeight: FontWeight.w600,
+  //     ),
+  //   ),
+  // );
+
+  // DARK THEME
 
   ThemeData get darkTheme => ThemeData(
     brightness: Brightness.dark,
-    primaryColor: Colors.black,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(Colors.white),
+        fixedSize: WidgetStatePropertyAll(Size(100, 40)),
+      ),
+    ),
+
+    primaryColor: Color(0xFF0F0F0F),
     colorScheme: ColorScheme.fromSeed(
       seedColor: _primaryColor,
       brightness: Brightness.dark,
     ),
-    appBarTheme: AppBarTheme(backgroundColor: _primaryColor, centerTitle: true),
-    scaffoldBackgroundColor: Colors.black,
-    textTheme: TextTheme(
-      bodyMedium: GoogleFonts.poppins(
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xFF3D3D3D),
+
+      centerTitle: true,
+      iconTheme: const IconThemeData(color: Colors.white), // For back icon
+      titleTextStyle: GoogleFonts.poppins(
         color: Colors.white,
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
     ),
+    scaffoldBackgroundColor: Color(0xFF0F0F0F),
+    textTheme: TextTheme(
+      bodySmall: GoogleFonts.poppins(color: Colors.white),
+      bodyMedium: GoogleFonts.poppins(color: Colors.white),
+      bodyLarge: GoogleFonts.poppins(color: Colors.black),
+      labelSmall: GoogleFonts.poppins(color: Colors.white),
+      labelMedium: GoogleFonts.poppins(color: Colors.white),
+      labelLarge: GoogleFonts.poppins(color: Colors.white),
+      titleSmall: GoogleFonts.poppins(color: Colors.white),
+      titleMedium: GoogleFonts.poppins(color: Colors.white),
+      titleLarge: GoogleFonts.poppins(color: Colors.white),
+      headlineSmall: GoogleFonts.poppins(color: Colors.white),
+      headlineMedium: GoogleFonts.poppins(color: Colors.white),
+      headlineLarge: GoogleFonts.poppins(color: Colors.white),
+      displaySmall: GoogleFonts.poppins(color: Colors.white),
+      displayMedium: GoogleFonts.poppins(color: Colors.white),
+      displayLarge: GoogleFonts.poppins(color: Colors.white),
+    ),
   );
 
+  ///
+  ///LIGHT THEME
+  ///
   ThemeData get lightTheme => ThemeData(
     brightness: Brightness.light,
-    primaryColor: _primaryColor,
+    primaryColor: Color(0xFFeffdff),
     colorScheme: ColorScheme.fromSeed(
       seedColor: _primaryColor,
       brightness: Brightness.light,
     ),
-    appBarTheme: AppBarTheme(backgroundColor: _primaryColor, centerTitle: true),
-    scaffoldBackgroundColor: Colors.white,
-    textTheme: TextTheme(
-      bodyMedium: GoogleFonts.poppins(
-        color: Colors.black,
+    appBarTheme: AppBarTheme(
+      backgroundColor: _primaryColor,
+      centerTitle: true,
+      iconTheme: const IconThemeData(color: Colors.black), // For back icon
+      titleTextStyle: GoogleFonts.poppins(
+        color: Color(0xFF0F0F0F),
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
+    ),
+    scaffoldBackgroundColor: Colors.grey.shade300,
+    textTheme: TextTheme(
+      bodySmall: GoogleFonts.poppins(color: Colors.black),
+      bodyMedium: GoogleFonts.poppins(color: Colors.black),
+      bodyLarge: GoogleFonts.poppins(color: Colors.black),
+      labelSmall: GoogleFonts.poppins(color: Colors.black),
+      labelMedium: GoogleFonts.poppins(color: Colors.black),
+      labelLarge: GoogleFonts.poppins(color: Colors.black),
+      titleSmall: GoogleFonts.poppins(color: Colors.black),
+      titleMedium: GoogleFonts.poppins(color: Colors.black),
+      titleLarge: GoogleFonts.poppins(color: Colors.black),
+      headlineSmall: GoogleFonts.poppins(color: Colors.black),
+      headlineMedium: GoogleFonts.poppins(color: Colors.black),
+      headlineLarge: GoogleFonts.poppins(color: Colors.black),
+      displaySmall: GoogleFonts.poppins(color: Colors.black),
+      displayMedium: GoogleFonts.poppins(color: Colors.black),
+      displayLarge: GoogleFonts.poppins(color: Colors.black),
     ),
   );
 

@@ -77,17 +77,15 @@ class _NeumorphicCircleButtonCheckInState
         ),
         child: CircleAvatar(
           radius: 50,
-          backgroundColor: AppColor.secondaryColor,
+          backgroundColor: AppColor.primaryColor(context),
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return Text(
                 "Check-In",
-                // widget.isLogin
-                //     ? AppLocalizations.of(context)!.login
-                //     : AppLocalizations.of(context)!.logout,
-                style: themeProvider.themeData.textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               );
             },

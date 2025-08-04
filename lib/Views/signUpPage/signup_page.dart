@@ -21,7 +21,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      // backgroundColor: Colors.grey.shade100,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -50,7 +50,7 @@ class _SignupPageState extends State<SignupPage> {
                       'EATA',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: AppColor.textColor,
+                        color: AppColor.textColor(context),
                       ),
                     ),
                   ],
@@ -60,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                   'Create an Account',
                   style: GoogleFonts.poppins(
                     fontSize: 22,
-                    color: AppColor.headingColor,
+                    color: AppColor.headingColor(context),
                   ),
                 ),
                 SizedBox(height: 5),
@@ -68,7 +68,7 @@ class _SignupPageState extends State<SignupPage> {
                   'Join us for an exceptional experience',
                   style: GoogleFonts.poppins(
                     fontSize: 12,
-                    color: AppColor.textColor,
+                    color: AppColor.textColor(context),
                   ),
                 ),
                 SizedBox(height: 40),
@@ -77,10 +77,10 @@ class _SignupPageState extends State<SignupPage> {
                   context: context,
                   label: 'Full Name',
                   fontwgt: FontWeight.normal,
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.headingColor(context),
                   hint: 'Full Name',
 
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: fullNameController,
                   keyboardtype: TextInputType.emailAddress,
                   icon: Icon(Icons.email),
@@ -90,10 +90,10 @@ class _SignupPageState extends State<SignupPage> {
                   context: context,
                   label: 'Phone/Email',
                   fontwgt: FontWeight.normal,
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.headingColor(context),
                   hint: 'Phone/Email',
 
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: phoneEmaiController,
                   keyboardtype: TextInputType.emailAddress,
                   icon: Icon(Icons.email),
@@ -109,18 +109,18 @@ class _SignupPageState extends State<SignupPage> {
                       });
                     },
                     child: isShown
-                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor)
+                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor(context))
                         : Icon(
                             Icons.remove_red_eye_outlined,
-                            color: AppColor.textColor,
+                            color: AppColor.textColor(context),
                           ),
                   ),
 
                   fontwgt: FontWeight.normal,
 
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.headingColor(context),
                   hint: 'Password',
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: passController,
                   isObstructed: isShown,
                   icon: Icon(Icons.lock),
@@ -147,12 +147,12 @@ class _SignupPageState extends State<SignupPage> {
                   child: RichText(
                     text: TextSpan(
                       text: "Already have an Account !",
-                      style: TextStyle(color: AppColor.textColor, fontSize: 16),
+                      style: TextStyle(color: AppColor.textColor(context), fontSize: 16),
                       children: <TextSpan>[
                         TextSpan(
                           text: ' Sign In',
                           style: TextStyle(
-                            color: AppColor.headingColor,
+                            color: AppColor.headingColor(context),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

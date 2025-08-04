@@ -29,10 +29,10 @@ class _MyHomeState extends State<MyHome> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     MyMapLocation(),
-    Center(child: Container(color: AppColor.primaryColor)),
+    Center(child: Container(color: Colors.amber)),
     TodoListPage(),
     ReportPage(),
-    Center(child: Container(color: AppColor.errorColor)),
+    Center(child: Container(color: Colors.red)),
   ];
 
   @override
@@ -100,10 +100,12 @@ class _MyHomeState extends State<MyHome> {
     print("build");
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColor.primaryColor,
+        backgroundColor: AppColor.primaryColor(context),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.deepPurple, // This shows all 5 items
-        unselectedItemColor: Colors.black,
+        selectedItemColor: AppColor.headingColor(
+          context,
+        ), // This shows all 5 items
+        unselectedItemColor: AppColor.textColor(context),
         selectedFontSize: 12,
         unselectedFontSize: 10,
         selectedLabelStyle: GoogleFonts.poppins(
@@ -125,7 +127,7 @@ class _MyHomeState extends State<MyHome> {
               'assets/svgImages/thinperson.svg',
               height: 25,
               width: 25,
-              // color: _selectedIndex == 0 ? Colors.deepPurple : null,
+              color: AppColor.headingColor(context),
             ),
 
             label: 'Attendance',
@@ -135,7 +137,7 @@ class _MyHomeState extends State<MyHome> {
               'assets/svgImages/trackthin.svg',
               height: 25,
               width: 25,
-              // color: _selectedIndex == 1 ? Colors.deepPurple : null,
+              color: AppColor.headingColor(context),
             ),
             label: 'Activity',
           ),
@@ -144,7 +146,7 @@ class _MyHomeState extends State<MyHome> {
               'assets/svgImages/todothin.svg',
               height: 25,
               width: 25,
-              // color: _selectedIndex == 2 ? Colors.deepPurple : null,
+              color: AppColor.headingColor(context),
             ),
             label: 'To Do',
           ),
@@ -153,7 +155,7 @@ class _MyHomeState extends State<MyHome> {
               'assets/svgImages/reportthin.svg',
               height: 25,
               width: 25,
-              // color: _selectedIndex == 3 ? Colors.deepPurple : null,
+              color: AppColor.headingColor(context),
             ),
             label: 'Report',
           ),
@@ -164,9 +166,14 @@ class _MyHomeState extends State<MyHome> {
           builder: (context, themeProvider, child) {
             return Drawer(
               shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.transparent,
+                ),
                 borderRadius: BorderRadius.circular(5),
               ),
-              backgroundColor: themeProvider.primaryColor,
+              backgroundColor: AppColor.primaryColor(context),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
@@ -182,7 +189,9 @@ class _MyHomeState extends State<MyHome> {
                             bottom: 50,
                             child: CircleAvatar(
                               radius: 20,
-                              backgroundColor: Colors.white,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                               child: Consumer(
                                 builder: (ctx, value, child) {
                                   final imagePath = ctx
@@ -259,6 +268,7 @@ class _MyHomeState extends State<MyHome> {
                                 'assets/svgImages/camera.svg',
                                 height: 20,
                                 width: 20,
+                                color: AppColor.headingColor(context),
                               ),
                             ),
                           ),
@@ -276,8 +286,7 @@ class _MyHomeState extends State<MyHome> {
                             bottom: 10,
                             child: Text(
                               appLoc.welcome,
-                              style:
-                                  themeProvider.themeData.textTheme.bodyMedium,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
                         ],
@@ -364,23 +373,19 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 'Theme Mode',
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Image.asset(
                                 "assets/images/night.png",
                                 scale: 1,
                                 height: 25,
-                                color: Colors.black,
+                                color: AppColor.headingColor(context),
                               ),
                             ],
                           ),
 
                           style: ListTileStyle.list,
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -393,11 +398,9 @@ class _MyHomeState extends State<MyHome> {
                                 return AlertDialog(
                                   title: Text(
                                     'Select Theme',
-                                    style: themeProvider
-                                        .themeData
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: AppColor.textColor),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                   content: SizedBox(
                                     height: 200,
@@ -408,13 +411,9 @@ class _MyHomeState extends State<MyHome> {
                                         RadioListTile<ThemeMode>(
                                           title: Text(
                                             'Light',
-                                            style: themeProvider
-                                                .themeData
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: AppColor.textColor,
-                                                ),
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodyMedium,
                                           ),
                                           value: ThemeMode.light,
                                           groupValue: currentMode,
@@ -429,13 +428,9 @@ class _MyHomeState extends State<MyHome> {
                                         RadioListTile<ThemeMode>(
                                           title: Text(
                                             'Dark',
-                                            style: themeProvider
-                                                .themeData
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: AppColor.textColor,
-                                                ),
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodyMedium,
                                           ),
                                           value: ThemeMode.dark,
                                           groupValue: currentMode,
@@ -485,18 +480,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 appLoc.contact_us,
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SvgPicture.asset(
                                 "assets/svgImages/customer-service.svg",
+                                color: AppColor.headingColor(context),
                               ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -515,18 +507,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 appLoc.feedback,
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SvgPicture.asset(
                                 "assets/svgImages/feedback-review.svg",
+                                color: AppColor.headingColor(context),
                               ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -544,18 +533,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 "Leave Request",
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SvgPicture.asset(
                                 "assets/svgImages/wheelchair-sleeping.svg",
+                                color: AppColor.headingColor(context),
                               ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -572,16 +558,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 appLoc.about_us,
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              SvgPicture.asset("assets/svgImages/about.svg"),
+                              SvgPicture.asset(
+                                "assets/svgImages/about.svg",
+                                color: AppColor.headingColor(context),
+                              ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -600,16 +585,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 appLoc.privacy_policy,
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              SvgPicture.asset("assets/svgImages/policy.svg"),
+                              SvgPicture.asset(
+                                "assets/svgImages/policy.svg",
+                                color: AppColor.headingColor(context),
+                              ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -627,18 +611,15 @@ class _MyHomeState extends State<MyHome> {
                             children: [
                               Text(
                                 appLoc.terms_and_conditions,
-                                style: themeProvider
-                                    .themeData
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColor.textColor),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               SvgPicture.asset(
                                 "assets/svgImages/termsConditions.svg",
+                                color: AppColor.headingColor(context),
                               ),
                             ],
                           ),
-                          tileColor: AppColor.backgroundColor,
+                          tileColor: AppColor.backgroundColor(context),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -684,12 +665,15 @@ class _MyHomeState extends State<MyHome> {
       ),
 
       appBar: AppBar(
-        // backgroundColor: AppColor.primaryColor,
+        // backgroundColor: AppColor.primaryColor(context),
         title: Consumer<ThemeProvider>(
           builder: (context, themeProvider, child) {
             return Text(
               appLoc.welcome,
-              style: themeProvider.themeData.textTheme.bodyMedium,
+              // style: GoogleFonts.poppins(
+              //   textStyle: Theme.of(context).textTheme.bodyLarge,
+
+              // ),
             );
           },
         ),
@@ -714,6 +698,7 @@ class _MyHomeState extends State<MyHome> {
                         fit: BoxFit.contain,
                         height: 20,
                         width: 20,
+                        color: AppColor.headingColor(context),
                       ),
                     );
                   }).toList(),
@@ -737,12 +722,12 @@ class _MyHomeState extends State<MyHome> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      backgroundColor: AppColor.primaryColor,
+                      backgroundColor: AppColor.primaryColor(context),
                       title: const Text("Language"),
                       content: DropdownButton<String>(
                         alignment: Alignment(0, 10),
                         autofocus: true,
-                        dropdownColor: AppColor.primaryColor,
+                        dropdownColor: AppColor.primaryColor(context),
                         icon: Icon(Icons.language_outlined),
                         menuWidth: 110.0,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -792,6 +777,7 @@ class _MyHomeState extends State<MyHome> {
                   'assets/svgImages/lang.svg',
                   height: 20,
                   width: 20,
+                  color: AppColor.headingColor(context),
                 ),
               ),
             ),

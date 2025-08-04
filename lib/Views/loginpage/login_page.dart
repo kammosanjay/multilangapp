@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      // backgroundColor: Colors.grey.shade100,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -47,13 +47,14 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.track_changes),
+                    Icon(Icons.track_changes,color:AppColor.headingColor(context)),
                     SizedBox(width: 8),
                     Text(
                       'EATA',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: AppColor.textColor,
+                        // color: AppColor.textColor(context),
+                        textStyle:Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
                   ],
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Welcome User !',
                   style: GoogleFonts.poppins(
                     fontSize: 22,
-                    color: AppColor.headingColor,
+                    color: AppColor.headingColor(context),
                   ),
                 ),
                 SizedBox(height: 5),
@@ -71,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Employee, e-Attendance & Tracking',
                   style: GoogleFonts.poppins(
                     fontSize: 12,
-                    color: AppColor.textColor,
+                    color: AppColor.textColor(context),
                   ),
                 ),
                 SizedBox(height: 40),
@@ -79,10 +80,10 @@ class _LoginPageState extends State<LoginPage> {
                   context: context,
                   label: 'Phone/Email',
                   fontwgt: FontWeight.normal,
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.textColor(context),
                   hint: 'Phone/Email',
-
-                  hintColor: AppColor.textColor,
+                   
+                  hintColor: Theme.of(context).colorScheme.secondary,
                   controller: phoneEmaiController,
                   keyboardtype: TextInputType.emailAddress,
                   icon: Icon(Icons.email),
@@ -98,18 +99,18 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                     child: isShown
-                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor)
+                        ? Icon(Icons.remove_red_eye, color: AppColor.textColor(context))
                         : Icon(
                             Icons.remove_red_eye_outlined,
-                            color: AppColor.textColor,
+                            color: AppColor.textColor(context),
                           ),
                   ),
 
                   fontwgt: FontWeight.normal,
 
-                  headingcolor: AppColor.headingColor,
+                  headingcolor: AppColor.headingColor(context),
                   hint: 'Password',
-                  hintColor: AppColor.textColor,
+                  hintColor: AppColor.textColor(context),
                   controller: passController,
                   isObstructed: isShown,
                   icon: Icon(Icons.lock),
@@ -163,12 +164,12 @@ class _LoginPageState extends State<LoginPage> {
                   child: RichText(
                     text: TextSpan(
                       text: "Don't have an Account? ",
-                      style: TextStyle(color: AppColor.textColor, fontSize: 16),
+                      style: TextStyle(color: AppColor.textColor(context), fontSize: 16),
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Sign Up',
                           style: TextStyle(
-                            color: AppColor.headingColor,
+                            color: AppColor.headingColor(context),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

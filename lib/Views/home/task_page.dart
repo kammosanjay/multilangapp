@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_localization_app/constant/appColor.dart';
 import 'package:multi_localization_app/constant/constant_widget.dart';
 import 'package:multi_localization_app/utils/custom_widgets.dart';
@@ -21,8 +22,11 @@ class _TaskPageState extends State<TaskPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColor.primaryColor,
-          title: Text('New Meeting', style: MyCustomWidgets.textstyle()),
+          backgroundColor: AppColor.primaryColor(context),
+          title: Text(
+            'New Meeting',
+            style: TextStyle(color: AppColor.headingColor(context)),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -32,8 +36,14 @@ class _TaskPageState extends State<TaskPage> {
               CustomWidgets.customTextFeild(
                 context: context,
                 hint: 'Task list',
+                hintColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.black
+                    : Color(0xFFeffdff),
                 controller: tasklistController,
                 maxLines: 10,
+                fillcolor: Theme.of(context).brightness == Brightness.dark
+                    ? Color(0xFFeffdff)
+                    : Color(0xFFeffdff),
                 keyboardtype: TextInputType.text,
               ),
               SizedBox(height: 10),
@@ -44,7 +54,7 @@ class _TaskPageState extends State<TaskPage> {
                   width: 150,
                   height: 30,
                   radius: 5.0,
-                  btnColor: AppColor.primaryColor,
+                  btnColor: AppColor.buttonColor(context),
                   buttonName: 'Submit',
                   onPressed: () {
                     ScaffoldMessenger.of(context)
@@ -53,10 +63,10 @@ class _TaskPageState extends State<TaskPage> {
                             content: Text(
                               "Task Created Successfully!",
                               style: MyCustomWidgets.textstyle(
-                                textColor: AppColor.textColor,
+                                textColor: AppColor.textColor(context),
                               ),
                             ),
-                            backgroundColor: AppColor.primaryColor,
+                            backgroundColor: AppColor.primaryColor(context),
                             elevation: 5,
                             behavior: SnackBarBehavior.floating,
                             margin: const EdgeInsets.only(

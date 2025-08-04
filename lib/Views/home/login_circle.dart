@@ -44,7 +44,7 @@ class _NeumorphicCircleButtonState extends State<NeumorphicCircleButton> {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: backgroundColor,
+              color: AppColor.primaryColor(context),
               boxShadow: _isPressed
                   ? [
                       // inner pressed effect
@@ -78,38 +78,37 @@ class _NeumorphicCircleButtonState extends State<NeumorphicCircleButton> {
                     ],
             ),
             child:
-            //  widget.isTaskCreated
-            //     ? CircleAvatar(
-            //         radius: 50,
-            //         backgroundColor: AppColor.secondaryColor,
-            //         child: Text(
-            //           "Check-In",
-            //           // widget.isLogin
-            //           //     ? AppLocalizations.of(context)!.login
-            //           //     : AppLocalizations.of(context)!.logout,
-            //           style: themeProvider.themeData.textTheme.bodyMedium
-            //               ?.copyWith(
-            //                 color: Colors.red,
-            //                 fontWeight: FontWeight.w600,
-            //               ),
-                     
-            //         ),
-            //       )
-            //     :
-                 CircleAvatar(
-                    radius: 50,
-                    backgroundColor: AppColor.secondaryColor,
-                    child: Text(
-                      widget.isLogin
-                          ? AppLocalizations.of(context)!.login
-                          : AppLocalizations.of(context)!.logout,
-                      style: themeProvider.themeData.textTheme.bodyMedium
-                          ?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
+                //  widget.isTaskCreated
+                //     ? CircleAvatar(
+                //         radius: 50,
+                //         backgroundColor: AppColor.secondaryColor,
+                //         child: Text(
+                //           "Check-In",
+                //           // widget.isLogin
+                //           //     ? AppLocalizations.of(context)!.login
+                //           //     : AppLocalizations.of(context)!.logout,
+                //           style: themeProvider.themeData.textTheme.bodyMedium
+                //               ?.copyWith(
+                //                 color: Colors.red,
+                //                 fontWeight: FontWeight.w600,
+                //               ),
+                //         ),
+                //       )
+                //     :
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: AppColor.primaryColor(context),
+                  child: Text(
+                    widget.isLogin
+                        ? AppLocalizations.of(context)!.login
+                        : AppLocalizations.of(context)!.logout,
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Color(0xFFeffdff)
+                          : Colors.black,
                     ),
                   ),
+                ),
           );
         },
       ),

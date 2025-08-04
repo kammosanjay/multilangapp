@@ -86,7 +86,7 @@ class _TodoListPageState extends State<TodoListPage> {
               child: SingleChildScrollView(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColor.primaryColor(context),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
@@ -146,11 +146,18 @@ class _TodoListPageState extends State<TodoListPage> {
                           focusNode: _focusNode,
                           controller: _controller,
                           hint: 'Add a new task',
-                          fillcolor: Colors.grey.shade200,
-                          hintColor: AppColor.textColor,
+                          fillcolor:
+                              Theme.of(context).brightness == Brightness.dark
+                              ? Color(0xFFeffdff)
+                              : Color(0xFFeffdff),
+                          hintColor:
+                              Theme.of(context).brightness == Brightness.dark
+                              ? Color(0xFFeffdff)
+                              : Color(0xFFeffdff),
                           onTap: () {
                             FocusScope.of(context).unfocus();
                           },
+
                           width: MediaQuery.of(context).size.width,
                           height: 80,
                         ),
@@ -162,7 +169,7 @@ class _TodoListPageState extends State<TodoListPage> {
                           'Task Priority',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            color: AppColor.headingColor,
+                            color: AppColor.headingColor(context),
                           ),
                         ),
                       ),
@@ -192,8 +199,10 @@ class _TodoListPageState extends State<TodoListPage> {
                                         todoProvider.clearTasks();
                                       },
                                       buttonName: 'Clear',
+
                                       fontSize: 14,
-                                      btnColor: AppColor.primaryColor,
+                                      btnColor: AppColor.buttonColor(context),
+                                      // btnColor: Theme.of(context).elevatedButtonTheme,
                                       radius: 5,
                                     );
                                   },
@@ -234,7 +243,7 @@ class _TodoListPageState extends State<TodoListPage> {
                                         ? "Update"
                                         : 'Add',
                                     fontSize: 14,
-                                    btnColor: AppColor.primaryColor,
+                                    btnColor: AppColor.buttonColor(context),
                                     radius: 5,
                                   );
                                 },
@@ -271,7 +280,7 @@ class _TodoListPageState extends State<TodoListPage> {
             value,
             style: GoogleFonts.poppins(
               fontSize: 12,
-              color: AppColor.headingColor,
+              color: AppColor.headingColor(context),
             ),
           ),
         ],
@@ -312,7 +321,7 @@ class _TodoListPageState extends State<TodoListPage> {
                                 "No Task is added yet.",
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  color: AppColor.textColor,
+                                  color: AppColor.textColor(context),
                                 ),
                               ),
                             ],
@@ -387,12 +396,10 @@ class _TodoListPageState extends State<TodoListPage> {
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.normal,
-                                                        color: AppColor
-                                                            .headingColor,
+                                                        textStyle: Theme.of(
+                                                          context,
+                                                        ).textTheme.bodyLarge,
                                                       ),
-                                                      // maxLines: 3,
-                                                      // overflow:
-                                                      // TextOverflow.ellipsis,
                                                     ),
                                                   ],
                                                 ),
@@ -447,8 +454,10 @@ class _TodoListPageState extends State<TodoListPage> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .normal,
-                                                              color: AppColor
-                                                                  .headingColor,
+                                                              color:
+                                                                  AppColor.headingColor(
+                                                                    context,
+                                                                  ),
                                                             ),
                                                           ),
                                                           actions: [
@@ -465,8 +474,9 @@ class _TodoListPageState extends State<TodoListPage> {
                                                                       height:
                                                                           40,
                                                                       btnColor:
-                                                                          AppColor
-                                                                              .primaryColor,
+                                                                          AppColor.primaryColor(
+                                                                            context,
+                                                                          ),
                                                                       buttonName:
                                                                           "Yes",
                                                                       onPressed: () {
@@ -532,7 +542,9 @@ class _TodoListPageState extends State<TodoListPage> {
                                             style: GoogleFonts.poppins(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
-                                              color: AppColor.headingColor,
+                                              color: AppColor.headingColor(
+                                                context,
+                                              ),
                                             ),
                                             children: [
                                               TextSpan(
@@ -553,7 +565,9 @@ class _TodoListPageState extends State<TodoListPage> {
                                                       : task.priority ==
                                                             "Medium"
                                                       ? Colors.green
-                                                      : AppColor.errorColor,
+                                                      : AppColor.errorColor(
+                                                          context,
+                                                        ),
                                                 ),
                                               ),
                                             ],
@@ -565,7 +579,9 @@ class _TodoListPageState extends State<TodoListPage> {
                                             style: GoogleFonts.poppins(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
-                                              color: AppColor.headingColor,
+                                              color: AppColor.headingColor(
+                                                context,
+                                              ),
                                             ),
                                             children: [
                                               TextSpan(
@@ -578,7 +594,9 @@ class _TodoListPageState extends State<TodoListPage> {
                                                       : task.priority ==
                                                             "Medium"
                                                       ? Colors.green
-                                                      : AppColor.errorColor,
+                                                      : AppColor.errorColor(
+                                                          context,
+                                                        ),
                                                 ),
                                               ),
                                             ],

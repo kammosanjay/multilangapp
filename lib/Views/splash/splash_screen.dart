@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColor.primaryColor, Colors.yellow],
+          colors: [AppColor.primaryColor(context), Colors.yellow],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -94,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
             navigationBarShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            navigationBarColor: AppColor.primaryColor,
+            navigationBarColor: AppColor.primaryColor(context),
             showDivider: true,
             dotHeight: 10,
             dotWidth: 10,

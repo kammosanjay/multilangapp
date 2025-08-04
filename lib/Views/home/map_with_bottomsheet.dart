@@ -229,9 +229,15 @@ class _MyMapLocationState extends State<MyMapLocation>
             bottom: 0,
             child: Container(
               height: 300,
+
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                border: BoxBorder.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Color(0xFFeffdff)
+                      : Color(0xFFeffdff),
+                ),
+                color: AppColor.primaryColor(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
@@ -248,7 +254,9 @@ class _MyMapLocationState extends State<MyMapLocation>
                     height: 5,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: AppColor.primaryColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Color(0xFFeffdff)
+                          : Colors.black,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -258,7 +266,10 @@ class _MyMapLocationState extends State<MyMapLocation>
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundColor: AppColor.primaryColor,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? Color(0xFFeffdff)
+                            : Colors.black,
                       ),
                       SizedBox(width: 10),
                       Column(
@@ -270,7 +281,11 @@ class _MyMapLocationState extends State<MyMapLocation>
                               textStyle: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: AppColor.textColor,
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Color(0xFFeffdff)
+                                    : Colors.black,
                               ),
                             ),
                           ),
@@ -280,14 +295,16 @@ class _MyMapLocationState extends State<MyMapLocation>
                                   width: 300,
                                   height: 2,
                                   child: LinearProgressIndicator(
-                                    backgroundColor: AppColor.primaryColor,
+                                    backgroundColor: AppColor.primaryColor(
+                                      context,
+                                    ),
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColor.secondaryColor,
+                                      AppColor.textColor(context),
                                     ),
                                   ),
                                 )
                               : SizedBox(
-                                  width: 300,
+                                  width: 290,
                                   child: Text(
                                     address,
 
@@ -296,7 +313,11 @@ class _MyMapLocationState extends State<MyMapLocation>
                                       textStyle: TextStyle(
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 14,
-                                        color: AppColor.textColor,
+                                        color:
+                                            Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Color(0xFFeffdff)
+                                            : Colors.black,
                                       ),
                                     ),
                                   ),
@@ -327,15 +348,13 @@ class _MyMapLocationState extends State<MyMapLocation>
           isTaskCreated: taskCreated,
         ),
       );
-    } 
-    else if (taskCreated) {
+    } else if (taskCreated) {
       return Positioned(
         left: 0,
         right: 0,
         bottom: 70,
         child: NeumorphicCircleButtonCheckIn(
           // isLogin: isLogin,
-
           isTaskCreated: taskCreated,
         ),
       );
@@ -350,7 +369,9 @@ class _MyMapLocationState extends State<MyMapLocation>
           Text(
             "Logged In",
             style: MyCustomWidgets.textstyle(
-              textColor: AppColor.secondaryColor,
+              textColor: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFFeffdff)
+                  : Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
